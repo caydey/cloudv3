@@ -1,0 +1,188 @@
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    version="1.1"
+    viewBox="0 0 16 16"
+  >
+    <!-- go-up -->
+    <template v-if="icon === 'go-up'">
+      <path
+        style="fill: currentColor"
+        d="M 7,14 V 6 L 3.5,9.5 2,8 8,2 14,8 12.5,9.5 9,6 V 14 Z"
+      />
+    </template>
+
+    <!-- go-previous -->
+    <template v-else-if="icon === 'go-previous'">
+      <path
+        style="fill: currentColor"
+        d="M 14,7 H 6 L 9.5,3.5 8,2 2,8 8,14 9.5,12.5 6,9 H 14 Z"
+      />
+    </template>
+
+    <!-- go-next -->
+    <template v-else-if="icon === 'go-next'">
+      <path
+        style="fill: currentColor"
+        d="M 2,9 H 10 L 6.5,12.5 8,14 14,8 8,2 6.5,3.5 10,7 H 2 Z"
+      />
+    </template>
+
+    <!-- go-home -->
+    <!-- <template v-else-if="icon === 'go-home'">
+      <path
+        style="fill: currentColor"
+        d="M 8,1 0.5,9 H 3 v 6 h 3 v -4 h 4 v 4 h 3 V 9 h 2.5 z"
+      />
+    </template> -->
+
+    <!-- harddisk -->
+    <template v-else-if="icon === 'harddisk'">
+      <path
+        style="fill: #dfdfdf"
+        d="M 3,1 C 2,1 2,2 2,2 V 14 C 2,14 2,15 3,15 H 13 C 13,15 14,15 14,14 V 2 C 14,2 14,1 13,1 Z M 8,3 C 10.21,3 12,4.79 12,7 12,9.21 10.21,11 8,11 H 4 V 7 C 4,4.79 5.79,3 8,3 Z M 8,5 C 6.9,5 6,5.9 6,7 6,8.1 6.9,9 8,9 9.1,9 10,8.1 10,7 10,5.9 9.1,5 8,5 Z"
+      />
+    </template>
+
+    <!-- dialog-error -->
+    <!-- <template v-else-if="icon === 'dialog-error'">
+      <path
+        style="fill: #ff9800"
+        d="M 8,1 C 7.6451,1 7.326,1.172 7.1367,1.4961 L 0.13672,13.496 C -0.25081,14.167 0.23,15 1,15 H 15 C 15.76,15 16.248,14.155 15.867,13.496 L 8.8633,1.4961 C 8.674,1.172 8.3549,1 8,1 Z M 7,4 H 9 V 10 H 7 Z M 7,11 H 9 V 13 H 7 Z"
+      />
+    </template> -->
+
+    <!-- dialog-warning -->
+    <!-- <template v-else-if="icon === 'dialog-warning'">
+      <path
+        style="fill: #ff9800"
+        d="M 8,1 C 7.6451,1 7.326,1.172 7.1367,1.4961 L 0.13672,13.496 C -0.25081,14.167 0.23,15 1,15 H 15 C 15.76,15 16.248,14.155 15.867,13.496 L 8.8633,1.4961 C 8.674,1.172 8.3549,1 8,1 Z M 7,4 H 9 V 10 H 7 Z M 7,11 H 9 V 13 H 7 Z"
+      />
+    </template> -->
+
+    <!-- cut -->
+    <template v-else-if="icon === 'cut'">
+      <path
+        style="fill: currentColor"
+        d="M 4.5,2 C 3.12,2 2,3.12 2,4.5 2,5.88 3.12,7 4.5,7 4.95,7 5.36,6.86 5.72,6.66 L 7.69,8.5 5.72,10.34 C 5.36,10.14 4.95,10 4.5,10 3.12,10 2,11.12 2,12.5 2,13.88 3.12,15 4.5,15 5.88,15 7,13.88 7,12.5 7,12.27 6.96,12.06 6.91,11.84 L 9.03,9.78 13.5,14 H 15 V 13 L 6.91,5.16 C 6.96,4.95 7,4.73 7,4.5 7,3.12 5.88,2 4.5,2 Z M 4.5,3.5 C 5.05,3.5 5.5,3.95 5.5,4.5 5.5,5.05 5.05,5.5 4.5,5.5 3.95,5.5 3.5,5.05 3.5,4.5 3.5,3.95 3.95,3.5 4.5,3.5 Z M 13.5,3 9.56,6.72 10.88,8 15,4 V 3 Z M 4.5,11.5 C 5.05,11.5 5.5,11.95 5.5,12.5 5.5,13.05 5.05,13.5 4.5,13.5 3.95,13.5 3.5,13.05 3.5,12.5 3.5,11.95 3.95,11.5 4.5,11.5 Z"
+      />
+    </template>
+
+    <!-- copy -->
+    <template v-else-if="icon === 'copy'">
+      <path
+        style="fill: currentColor"
+        d="M 3,1 C 3,1 2,1 2,2 V 11 C 2,11 2,12 3,12 H 4 V 3 H 12 V 2 C 12,1 11,1 11,1 Z M 6,4 C 6,4 5,4 5,5 V 15 C 5,16 6,16 6,16 H 14 C 14,16 15,16 15,15 V 5 C 15,4 14,4 14,4 Z M 7,6 H 13 V 14 H 7 Z"
+      />
+    </template>
+
+    <!-- delete -->
+    <template v-else-if="icon === 'delete'">
+      <path
+        style="fill: currentColor"
+        d="M 6 1 C 5 1 5 2 5 2 L 2 2 C 2 2 1 2 1 3 L 1 4 L 14 4 L 14 3 C 14 2 13 2 13 2 L 10 2 C 10 2 10 1 9 1 L 6 1 z M 2 5 L 2 14 C 2 14.52 2.48 15 3 15 L 12 15 C 12.52 15 13 14.52 13 14 L 13 5 L 2 5 z M 4 7 L 4.90625 7 C 5.1896143 7 5.441896 7.094451 5.5878906 7.2226562 L 7.5 8.890625 L 9.4121094 7.2226562 C 9.5581045 7.0944527 9.810385 7 10.09375 7 L 11 7 L 11 7.7363281 C 11 7.9375667 10.918222 8.1210684 10.771484 8.25 L 8.7695312 10 L 10.771484 11.75 C 10.898603 11.861628 10.96343 12.04569 11 12.3125 L 11 13 L 10.09375 13 C 9.810385 13 9.5581045 12.90555 9.4121094 12.777344 L 7.5 11.099609 L 5.5878906 12.777344 C 5.441896 12.905551 5.1896143 13 4.90625 13 L 4 13 L 4 12.263672 C 4 12.062433 4.0819193 11.878734 4.2285156 11.75 L 6.2304688 10 L 4.2285156 8.25 C 4.0814864 8.1206723 4 7.9375667 4 7.7363281 L 4 7 z"
+      />
+    </template>
+
+    <!-- paste -->
+    <template v-else-if="icon === 'paste'">
+      <path
+        style="fill: currentColor"
+        d="M 8 0 A 2 2 0 0 0 6 2 L 3 2 C 2.446 2 2 2.446 2 3 L 2 14 C 2 14.554 2.446 15 3 15 L 13 15 C 13.554 15 14 14.554 14 14 L 14 3 C 14 2.446 13.554 2 13 2 L 10 2 A 2 2 0 0 0 8 0 z M 8 1 A 1 1 0 0 1 9 2 A 1 1 0 0 1 8 3 A 1 1 0 0 1 7 2 A 1 1 0 0 1 8 1 z M 4 4 L 5 4 L 5 5 L 11 5 L 11 4 L 12 4 L 12 13 L 4 13 L 4 4 z"
+      />
+    </template>
+
+    <!-- properties -->
+    <template v-else-if="icon === 'properties'">
+      <path
+        style="fill: currentColor"
+        d="M 1,1 V 3 H 15 V 1 Z M 1,5 V 7 H 15 V 5 Z M 1,9 V 11 H 15 V 9 Z M 1,13 V 15 H 15 V 13 Z"
+      />
+    </template>
+
+    <!-- edit -->
+    <template v-else-if="icon === 'edit'">
+      <path
+        style="fill: currentColor"
+        d="M 12.778,1.2222 C 12.778,1.2222 12.278,0.72224 11.778,1.2222 L 10,3 13,6 14.778,4.2222 C 15.278,3.7222 14.778,3.2222 14.778,3.2222 Z M 9,4 1,12 V 15 H 4 L 12,7 Z"
+      />
+    </template>
+
+    <!-- edit-undo -->
+    <!-- <template v-else-if="icon === 'edit-undo'">
+      <path
+        style="fill: currentColor"
+        d="M 7 2 L 2 5 L 7 8 L 7 6 L 10 6 C 11.6793 6 13 7.3207 13 9 C 13 10.6793 11.6793 12 10 12 L 5 12 L 5 14 L 10 14 C 12.7527 14 15 11.7527 15 9 C 15 6.2473 12.7527 4 10 4 L 7 4 L 7 2 z"
+      />
+    </template> -->
+
+    <!-- edit-new -->
+    <!-- <template v-else-if="icon === 'edit-new'">
+      <path
+        style="fill: currentColor"
+        d="M 1,3 V 14 C 1,14 1,15 2,15 H 14 C 14,15 15,15 15,14 V 5 C 15,4 14,4 14,4 H 9 L 7,2 H 2 C 2,2 1,2 1,3 Z M 7,6 H 9 V 8 H 11 V 10 H 9 V 12 H 7 V 10 H 5 V 8 H 7 Z"
+      />
+    </template> -->
+
+    <!-- download -->
+    <template v-else-if="icon === 'download'">
+      <path
+        style="fill: currentColor"
+        d="M 6 2 L 6 6 L 3 6 L 8 14 L 13 6 L 10 6 L 10 2 L 6 2 z"
+      />
+    </template>
+    <!-- open -->
+    <template v-else-if="icon === 'open'">
+      <path
+        style="fill: currentColor"
+        d="m 1.9999999,1.0000001 c 0,0 -1.00000005,0 -1.00000005,1 V 11 14 c 0,1 1.00000005,1 1.00000005,1 h 2 v -2 h -1 V 3.0097657 H 11 V 5.0000001 8 8 l 2.000003,-2.58e-4 v -1.7497423 -4.25 c 0,-1.00000001 -1,-1.00000001 -1,-1.00000001 z m 3.7148438,6 c 0,0 -0.7148438,-9.015e-4 -0.7148438,0.6914062 v 7.6171877 c 0,0 5.581e-4,0.691406 0.7148438,0.691406 H 14.285156 C 14.285156,16 15,16.000902 15,15.308594 V 9.6778675 C 15,8.9855593 14.285156,9.0001326 14.285156,9.0001326 H 10.714844 L 9.2851559,7.0000001 Z"
+      />
+    </template>
+    <!-- folder-new -->
+    <template v-else-if="icon === 'folder-new'">
+      <path
+        style="fill: currentColor"
+        d="M 1,3 V 14 C 1,14 1,15 2,15 H 14 C 14,15 15,15 15,14 V 5 C 15,4 14,4 14,4 H 9 L 7,2 H 2 C 2,2 1,2 1,3 Z M 7,6 H 9 V 8 H 11 V 10 H 9 V 12 H 7 V 10 H 5 V 8 H 7 Z"
+      />
+    </template>
+    <!-- upload -->
+    <template v-else-if="icon === 'upload'">
+      <path
+        style="fill: currentColor"
+        class="ColorScheme-Text"
+        d="M 6,14 V 10 H 3 l 5,-8 5,8 h -3 v 4 z"
+      />
+    </template>
+
+    <template v-else-if="icon === 'folder-move'">
+      <path
+        style="fill: currentColor; opacity: 0.35"
+        class="ColorScheme-Text"
+        d="M 12,7 V 11.25 C 12,12 11.25,12 11.25,12 H 5 V 14.25 C 5,15 5.75,15 5.75,15 H 14.25 C 14.25,15 15,15 15,14.25 V 7.75 C 15,7 14.25,7 14.25,7 Z"
+      />
+      <path
+        style="fill: currentColor"
+        class="ColorScheme-Text"
+        d="M 1.75,1 C 1.75,1 1,1 1,1.75 V 10.25 C 1,11 1.75,11 1.75,11 H 10.25 C 10.25,11 11,11 11,10.25 V 3.75 C 11,3 10.25,3 10.25,3 H 7 L 5,1 Z"
+      />
+    </template>
+    <template v-else-if="icon === 'folder-copy'">
+      <path
+        style="fill: currentColor"
+        class="ColorScheme-Text"
+        d="M 1.75,1 C 1.75,1 1,1 1,1.75 V 10.25 C 1,11 1.75,11 1.75,11 H 10.25 C 10.25,11 11,11 11,10.25 V 3.75 C 11,3 10.25,3 10.25,3 H 7 L 5,1 Z M 12,7 V 11.25 C 12,12 11.25,12 11.25,12 H 5 V 14.25 C 5,15 5.75,15 5.75,15 H 14.25 C 14.25,15 15,15 15,14.25 V 7.75 C 15,7 14.25,7 14.25,7 Z"
+      />
+    </template>
+  </svg>
+</template>
+
+<script>
+export default {
+  name: 'ActionIcon',
+  props: [
+    'icon'
+  ],
+}
+</script>

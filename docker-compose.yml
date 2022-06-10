@@ -1,0 +1,25 @@
+# DATA_ROOT environment variable based on contents of .env
+version: "3.9"
+services:
+  server: # back-end nodejs
+    build: ./server
+    restart: always
+    volumes:
+      - ${DATA_ROOT}:/data
+    environment:
+      - NON_LOCAL_READ_ONLY=${NON_LOCAL_READ_ONLY}
+      - DATA_ROOT=/data
+    # uid of the owner of the DATA_ROOT folder so the api can
+    # pretent to be the user making the changes to the file
+    user: "${DATA_ROOT_UID}:${DATA_ROOT_UID}"
+
+  client: # front-end nginx
+    build: ./client
+    restart: always
+    # nginx static files
+    volumes:
+      - ${DATA_ROOT}:/data
+    ports:
+      - "80:80"
+    depends_on:
+      - server
