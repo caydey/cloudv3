@@ -1,4 +1,3 @@
 server/app/node_modules
 client/app/node_modules
 client/app/dist
-docker_deploy.sh
