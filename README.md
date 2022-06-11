@@ -7,4 +7,4 @@ A web file manager build with vuejs and expressjs based on Thunar with a Matcha-
 - `git clone https://github.com/caydey/cloudv3`
 - `cd cloudv3`
 - `vim .env`
-- `./deploy`
+- `./deploy.sh`
