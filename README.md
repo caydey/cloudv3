@@ -2,7 +2,9 @@
 
 A web file manager build with vuejs and expressjs based on Thunar with a Matcha-dark-azul theme and Papirus-Dark icons
 
-# Installation
+# Installation using docker-compose
 
-- edit `.env` file
-- run `docker-compose up -d --build`
+- `git clone https://github.com/caydey/cloudv3`
+- `cd cloudv3`
+- `vim .env`
+- `./deploy`
