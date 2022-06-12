@@ -14,6 +14,7 @@
         <SvgIcon class="icon" icon="upload" />
         <span>Upload Files...</span>
       </div>
+      <!-- ROW_BREAK -->
       <div class="rowBreak"></div>
     </template>
 
@@ -23,6 +24,14 @@
         <SvgIcon class="icon" icon="open" />
         <span>Open</span>
       </div>
+      <!-- OPEN_IN_BROWSER -->
+      <template v-if="menuActions.includes('OPEN_IN_BROWSER')">
+        <div class="row" @click="clipboardAction('OPEN_IN_BROWSER')">
+          <SvgIcon class="icon" icon="browser" />
+          <span>Open in Browser</span>
+        </div>
+      </template>
+      <!-- ROW_BREAK -->
       <div class="rowBreak" />
     </template>
 
@@ -70,6 +79,7 @@
 
     <!-- RENAME -->
     <template v-if="menuActions.includes('RENAME')">
+      <!-- ROW_BREAK -->
       <div class="rowBreak" />
       <div class="row" @click="clipboardAction('RENAME')">
         <SvgIcon class="icon" icon="edit" />
@@ -95,6 +105,7 @@
 
     <!-- PROPERTIES -->
     <template v-if="menuActions.includes('PROPERTIES')">
+      <!-- ROW_BREAK -->
       <div class="rowBreak" />
       <div class="row" @click="clipboardAction('PROPERTIES')">
         <SvgIcon class="icon" icon="properties" />
