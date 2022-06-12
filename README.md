@@ -1,10 +1,13 @@
 # Cloudv3
 
-A web file manager build with vuejs and expressjs based on Thunar with a Matcha-dark-azul theme and Papirus-Dark icons
+Web file manager which supports opening files
 
-# Installation using docker-compose
+Inspired by [Thunar File Manager](https://docs.xfce.org/xfce/thunar/start), [Matcha Gtk Theme](https://github.com/vinceliuice/Matcha-gtk-theme) and [Papirus Icons](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)
 
+## Installation
+
+- docker-compose is required
 - `git clone https://github.com/caydey/cloudv3`
 - `cd cloudv3`
 - `vim .env`
-- `./deploy`
+- `./deploy.sh`
