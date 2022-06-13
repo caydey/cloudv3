@@ -11,7 +11,6 @@ export default function createWebSocketPlugin() {
   return store => {
     // socket responses
     const startWebSocket = () => {
-      console.log("starting websocket");
       let socket = new WebSocket(SOCKET_HOST);
       let socketOpen = false
       socket.addEventListener('open', () => {
@@ -20,8 +19,7 @@ export default function createWebSocketPlugin() {
   
       socket.addEventListener('close', () => {
         socketOpen = false
-        // retry connection in 2 seconds
-        // setTimeout(startWebSocket, 2_000)
+        // retry connection
         startWebSocket()
       })
 
@@ -30,7 +28,6 @@ export default function createWebSocketPlugin() {
         store.dispatch('explorer/dataRecieved')
         
         const json = JSON.parse(event.data)
-        console.log("socket message",json);
         if (json.success) {
           store.commit('explorer/setData', json.data)
         } else {
@@ -42,11 +39,9 @@ export default function createWebSocketPlugin() {
         if (mutation.type === 'explorer/setPath') {
           store.dispatch('explorer/dataRequested')
           if (socketOpen) { // if socket is open send message
-            console.log("socket send",state.explorer.path);
             socket.send(state.explorer.path)
           } else {  // else wait socket to open
             socket.onopen = () => {
-              console.log("socket send",state.explorer.path);
               socket.send(state.explorer.path)
             }
           }
