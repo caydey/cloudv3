@@ -10,9 +10,12 @@ var DATA_ROOT = process.env.DATA_ROOT
 // non local access
 var NON_LOCAL_READ_ONLY = process.env.NON_LOCAL_READ_ONLY || true
 
+// disclose free space
+var HIDE_FREE_SPACE = process.env.HIDE_FREE_SPACE || false
 
 module.exports = {
   STATIC_HOST,
   NON_LOCAL_READ_ONLY,
-  DATA_ROOT
+  DATA_ROOT,
+  HIDE_FREE_SPACE
 }
