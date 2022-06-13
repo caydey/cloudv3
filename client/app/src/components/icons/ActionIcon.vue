@@ -6,40 +6,8 @@
     version="1.1"
     viewBox="0 0 16 16"
   >
-    <!-- go-up -->
-    <template v-if="icon === 'go-up'">
-      <path
-        style="fill: currentColor"
-        d="M 7,14 V 6 L 3.5,9.5 2,8 8,2 14,8 12.5,9.5 9,6 V 14 Z"
-      />
-    </template>
-
-    <!-- go-previous -->
-    <template v-else-if="icon === 'go-previous'">
-      <path
-        style="fill: currentColor"
-        d="M 14,7 H 6 L 9.5,3.5 8,2 2,8 8,14 9.5,12.5 6,9 H 14 Z"
-      />
-    </template>
-
-    <!-- go-next -->
-    <template v-else-if="icon === 'go-next'">
-      <path
-        style="fill: currentColor"
-        d="M 2,9 H 10 L 6.5,12.5 8,14 14,8 8,2 6.5,3.5 10,7 H 2 Z"
-      />
-    </template>
-
-    <!-- harddisk -->
-    <template v-else-if="icon === 'harddisk'">
-      <path
-        style="fill: currentColor"
-        d="M 3,1 C 2,1 2,2 2,2 V 14 C 2,14 2,15 3,15 H 13 C 13,15 14,15 14,14 V 2 C 14,2 14,1 13,1 Z M 8,3 C 10.21,3 12,4.79 12,7 12,9.21 10.21,11 8,11 H 4 V 7 C 4,4.79 5.79,3 8,3 Z M 8,5 C 6.9,5 6,5.9 6,7 6,8.1 6.9,9 8,9 9.1,9 10,8.1 10,7 10,5.9 9.1,5 8,5 Z"
-      />
-    </template>
-
     <!-- cut -->
-    <template v-else-if="icon === 'cut'">
+    <template v-if="icon === 'cut'">
       <path
         style="fill: currentColor"
         d="M 4.5,2 C 3.12,2 2,3.12 2,4.5 2,5.88 3.12,7 4.5,7 4.95,7 5.36,6.86 5.72,6.66 L 7.69,8.5 5.72,10.34 C 5.36,10.14 4.95,10 4.5,10 3.12,10 2,11.12 2,12.5 2,13.88 3.12,15 4.5,15 5.88,15 7,13.88 7,12.5 7,12.27 6.96,12.06 6.91,11.84 L 9.03,9.78 13.5,14 H 15 V 13 L 6.91,5.16 C 6.96,4.95 7,4.73 7,4.5 7,3.12 5.88,2 4.5,2 Z M 4.5,3.5 C 5.05,3.5 5.5,3.95 5.5,4.5 5.5,5.05 5.05,5.5 4.5,5.5 3.95,5.5 3.5,5.05 3.5,4.5 3.5,3.95 3.95,3.5 4.5,3.5 Z M 13.5,3 9.56,6.72 10.88,8 15,4 V 3 Z M 4.5,11.5 C 5.05,11.5 5.5,11.95 5.5,12.5 5.5,13.05 5.05,13.5 4.5,13.5 3.95,13.5 3.5,13.05 3.5,12.5 3.5,11.95 3.95,11.5 4.5,11.5 Z"
@@ -102,19 +70,19 @@
       />
     </template>
 
-    <!-- folder-new -->
-    <template v-else-if="icon === 'folder-new'">
-      <path
-        style="fill: currentColor"
-        d="M 1,3 V 14 C 1,14 1,15 2,15 H 14 C 14,15 15,15 15,14 V 5 C 15,4 14,4 14,4 H 9 L 7,2 H 2 C 2,2 1,2 1,3 Z M 7,6 H 9 V 8 H 11 V 10 H 9 V 12 H 7 V 10 H 5 V 8 H 7 Z"
-      />
-    </template>
-
     <!-- upload -->
     <template v-else-if="icon === 'upload'">
       <path
         style="fill: currentColor"
         d="M 6,14 V 10 H 3 l 5,-8 5,8 h -3 v 4 z"
+      />
+    </template>
+
+    <!-- folder-new -->
+    <template v-else-if="icon === 'folder-new'">
+      <path
+        style="fill: currentColor"
+        d="M 1,3 V 14 C 1,14 1,15 2,15 H 14 C 14,15 15,15 15,14 V 5 C 15,4 14,4 14,4 H 9 L 7,2 H 2 C 2,2 1,2 1,3 Z M 7,6 H 9 V 8 H 11 V 10 H 9 V 12 H 7 V 10 H 5 V 8 H 7 Z"
       />
     </template>
 

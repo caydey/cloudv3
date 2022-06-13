@@ -2,9 +2,9 @@
   <div id="toptoolbar">
     <div id="vertialCenter">
       <div id="navigation">
-        <SvgIcon class="actionIcon" icon="go-previous" @click="goPrevious" />
-        <SvgIcon class="actionIcon" icon="go-next" @click="goNext" />
-        <SvgIcon class="actionIcon" icon="go-up" @click="goParent" />
+        <ToolbarIcon class="actionIcon" icon="previous" @click="goPrevious" />
+        <ToolbarIcon class="actionIcon" icon="next" @click="goNext" />
+        <ToolbarIcon class="actionIcon" icon="up" @click="goParent" />
       </div>
       <div id="trail">
         <div
@@ -14,7 +14,7 @@
           @click="trailClick(index)"
         >
           <template v-if="index == 0">
-            <SvgIcon id="harddisk" icon="harddisk" />
+            <ToolbarIcon id="harddisk" icon="harddisk" />
           </template>
           <template v-else>
             <span>
@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import SvgIcon from '@/components/SvgIcon.vue'
+import ToolbarIcon from '@/components/icons/ToolbarIcon.vue'
 
 let animateScrollInterval
 export default {
   name: 'TopToolbar',
   components: {
-    SvgIcon
+    ToolbarIcon
   },
   methods: {
     trailClick: function (index) {
@@ -52,9 +52,6 @@ export default {
     },
     goNext: function () {
       this.$router.forward()
-    },
-    clickNew: function () {
-      console.log("new");
     },
     handleScroll: function (event) {
       let scrollIncrement = 80
