@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     show(item) {
-      console.log(item);
       this.item = item;
       if (item.type === 'directory')
         this.icon = iconFromMime('folder')

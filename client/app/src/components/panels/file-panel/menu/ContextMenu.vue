@@ -3,7 +3,7 @@
     <!-- NEW_FOLDER -->
     <template v-if="menuActions.includes('NEW_FOLDER')">
       <div class="row" @click="clipboardAction('NEW_FOLDER')">
-        <SvgIcon class="icon" icon="folder-new" />
+        <ActionIcon class="icon" icon="folder-new" />
         <span>Create Folder...</span>
       </div>
     </template>
@@ -11,25 +11,34 @@
     <!-- UPLOAD -->
     <template v-if="menuActions.includes('UPLOAD')">
       <div class="row" @click="clipboardAction('UPLOAD')">
-        <SvgIcon class="icon" icon="upload" />
+        <ActionIcon class="icon" icon="upload" />
         <span>Upload Files...</span>
       </div>
+      <!-- ROW_BREAK -->
       <div class="rowBreak"></div>
     </template>
 
     <!-- OPEN -->
     <template v-if="menuActions.includes('OPEN')">
       <div class="row" @click="clipboardAction('OPEN')">
-        <SvgIcon class="icon" icon="open" />
+        <ActionIcon class="icon" icon="open" />
         <span>Open</span>
       </div>
+      <!-- OPEN_IN_BROWSER -->
+      <template v-if="menuActions.includes('OPEN_IN_BROWSER')">
+        <div class="row" @click="clipboardAction('OPEN_IN_BROWSER')">
+          <ActionIcon class="icon" icon="browser" />
+          <span>Open in Browser</span>
+        </div>
+      </template>
+      <!-- ROW_BREAK -->
       <div class="rowBreak" />
     </template>
 
     <!-- COPY -->
     <template v-if="menuActions.includes('COPY')">
       <div class="row" @click="clipboardAction('COPY')">
-        <SvgIcon class="icon" icon="copy" />
+        <ActionIcon class="icon" icon="copy" />
         <span>Copy</span>
       </div>
     </template>
@@ -37,7 +46,7 @@
     <!-- CUT -->
     <template v-if="menuActions.includes('CUT')">
       <div class="row" @click="clipboardAction('CUT')">
-        <SvgIcon class="icon" icon="cut" />
+        <ActionIcon class="icon" icon="cut" />
         <span>Cut</span>
       </div>
     </template>
@@ -49,7 +58,7 @@
         :class="{ disabled: !canPaste }"
         @click="canPaste && clipboardAction('PASTE')"
       >
-        <SvgIcon class="icon" icon="paste" />
+        <ActionIcon class="icon" icon="paste" />
         <!-- Paste *Into Folder* if folder -->
         <span>Paste</span>
       </div>
@@ -62,7 +71,7 @@
         :class="{ disabled: !canPaste }"
         @click="canPaste && clipboardAction('PASTE')"
       >
-        <SvgIcon class="icon" icon="paste" />
+        <ActionIcon class="icon" icon="paste" />
         <!-- Paste *Into Folder* if folder -->
         <span>Paste Into Folder</span>
       </div>
@@ -70,9 +79,10 @@
 
     <!-- RENAME -->
     <template v-if="menuActions.includes('RENAME')">
+      <!-- ROW_BREAK -->
       <div class="rowBreak" />
       <div class="row" @click="clipboardAction('RENAME')">
-        <SvgIcon class="icon" icon="edit" />
+        <ActionIcon class="icon" icon="edit" />
         <span>Rename</span>
       </div>
     </template>
@@ -80,7 +90,7 @@
     <!-- DELETE -->
     <template v-if="menuActions.includes('DELETE')">
       <div class="row" @click="clipboardAction('DELETE')">
-        <SvgIcon class="icon" icon="delete" />
+        <ActionIcon class="icon" icon="delete" />
         <span>Delete</span>
       </div>
     </template>
@@ -88,16 +98,17 @@
     <!-- DOWNLOAD -->
     <template v-if="menuActions.includes('DOWNLOAD')">
       <div class="row" @click="clipboardAction('DOWNLOAD')">
-        <SvgIcon class="icon" icon="download" />
+        <ActionIcon class="icon" icon="download" />
         <span>Download</span>
       </div>
     </template>
 
     <!-- PROPERTIES -->
     <template v-if="menuActions.includes('PROPERTIES')">
+      <!-- ROW_BREAK -->
       <div class="rowBreak" />
       <div class="row" @click="clipboardAction('PROPERTIES')">
-        <SvgIcon class="icon" icon="properties" />
+        <ActionIcon class="icon" icon="properties" />
         <span>Properties...</span>
       </div>
     </template>
@@ -107,8 +118,8 @@
 <script>
 import MenuModal from './MenuModal.vue'
 
-
-import SvgIcon from '@/components/SvgIcon'
+import { defineAsyncComponent } from 'vue'
+const ActionIcon = defineAsyncComponent(() => import(/* webpackChunkName: 'action-icons' */ '@/components/icons/ActionIcon'))
 
 import { mapGetters } from 'vuex'
 
@@ -116,7 +127,7 @@ export default {
   name: "ContextMenu",
   components: {
     MenuModal,
-    SvgIcon
+    ActionIcon
   },
   data() {
     return {

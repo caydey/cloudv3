@@ -2,20 +2,20 @@
   <MenuModal ref="menu">
     <!-- COPY -->
     <div class="row" @click="dragAction('COPY')">
-      <SvgIcon class="icon" icon="folder-copy" />
+      <ActionIcon class="icon" icon="folder-copy" />
       <span>Copy here</span>
     </div>
 
     <!-- MOVE -->
     <div class="row" @click="dragAction('MOVE')">
-      <SvgIcon class="icon" icon="folder-move" />
+      <ActionIcon class="icon" icon="folder-move" />
       <span>Move here</span>
     </div>
 
     <div class="rowBreak"></div>
     <!-- CANCEL -->
     <div class="row" @click="dragAction('CANCEL')">
-      <SvgIcon class="icon" icon="cancel" />
+      <ActionIcon class="icon" icon="cancel" />
       <span>Cancel</span>
     </div>
   </MenuModal>
@@ -23,15 +23,15 @@
 
 <script>
 import MenuModal from './MenuModal.vue'
+import { defineAsyncComponent } from 'vue'
 
-
-import SvgIcon from '@/components/SvgIcon'
+const ActionIcon = defineAsyncComponent(() => import(/* webpackChunkName: 'action-icons' */ '@/components/icons/ActionIcon'))
 
 export default {
   name: "DragMenu",
   components: {
     MenuModal,
-    SvgIcon
+    ActionIcon
   },
   data() {
     return {

@@ -13,5 +13,8 @@ module.exports = {
         `
       }
     }
+  },
+  chainWebpack: config => {
+    config.performance.maxAssetSize(1_000_000)
   }
 }

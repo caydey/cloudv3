@@ -103,11 +103,11 @@ export default {
       let contextMenuActions
       if (item) { // selected file
         if (item.type === 'file')
-          contextMenuActions = ['OPEN', 'COPY', 'CUT', 'RENAME', 'DELETE', 'DOWNLOAD', 'PROPERTIES']
+          contextMenuActions = ['OPEN', 'OPEN_IN_BROWSER', 'COPY', 'CUT', 'RENAME', 'DELETE', 'DOWNLOAD', 'PROPERTIES']
         else // folder
           contextMenuActions = ['OPEN', 'COPY', 'CUT', 'PASTE_INTO', 'RENAME', 'DELETE', 'PROPERTIES']
         this.contextMenuFocus = item
-      } else {
+      } else { // panel
         this.contextMenuFocus = this.exploredData
         contextMenuActions = ['NEW_FOLDER', 'UPLOAD', 'PASTE', 'PROPERTIES']
       }
@@ -154,8 +154,14 @@ export default {
           case 'UPLOAD':
             this.uploadAction(focusedItem)
             break
+          case 'OPEN_IN_BROWSER':
+            this.openInBrowserAction(focusedItem)
+            break
         }
       })
+    },
+    openInBrowserAction(focusedItem) {
+      window.open(focusedItem.location, '_blank');
     },
     downloadAction(focusedItem) {
       window.location.assign(focusedItem.location)
