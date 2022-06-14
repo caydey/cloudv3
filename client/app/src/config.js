@@ -1,9 +1,11 @@
 // production
 let API_HOST = '/api'
+
 let SOCKET_HOST = `ws://${window.location.host}/socket`
-if (process.env.VUE_APP_USE_SECURE_WEBSOCKETS === 'true') { // using ssl websockets, env var loaded from './.env'
+// use wss if we are using https
+if (window.location.protocol === "https:")
   SOCKET_HOST = `wss://${window.location.host}/socket`
-}
+
 
 // development
 if (process.env.NODE_ENV === 'development') {
