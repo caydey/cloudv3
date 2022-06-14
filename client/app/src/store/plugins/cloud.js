@@ -1,11 +1,5 @@
 import { SOCKET_HOST } from '@/config'
 
-
-
-
-// when reconnecting socket the return stuff is already sent and is using old socket
-// maybe move return inside the startWebSocket function, prob wont work
-// or move startwebsocket into the return and the socket onmessage & subscribe into the startWebSocket
 export default function createWebSocketPlugin() {
 
   return store => {
