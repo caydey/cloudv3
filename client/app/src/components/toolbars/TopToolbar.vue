@@ -92,7 +92,8 @@ export default {
       if (!path || path === '/') {
         trailItems = ['']
       } else {
-        trailItems = path.split('/')
+        // .filter(item => item) removes any empty elements from array
+        trailItems = path.split('/').filter(item => item)
       }
       return trailItems
     }
