@@ -35,7 +35,6 @@ import ErrorPanel from '@/components/panels/ErrorPanel'
 
 import { mapGetters } from 'vuex'
 
-// const DELAY_BEFORE_LOADING_CIRCLE = 200 // 200ms wait before showing loading circle
 export default {
   name: 'ExploreView',
   components: {
