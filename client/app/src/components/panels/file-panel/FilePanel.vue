@@ -28,14 +28,14 @@
 <script>
 import PanelItem from './PanelItem'
 
-import ContextMenu from './menu/ContextMenu'
-import DragMenu from './menu/DragMenu'
+import ContextMenu from '@/components/menus/ContextMenu'
+import DragMenu from '@/components/menus/DragMenu'
 
-import DeleteDialog from './dialog/DeleteDialog'
-import RenameDialog from './dialog/RenameDialog'
-import ErrorDialog from './dialog/ErrorDialog'
-import PropertiesDialog from './dialog/PropertiesDialog'
-import UploadDialog from './dialog/upload-dialog/UploadDialog'
+import DeleteDialog from '@/components/dialogs/DeleteDialog'
+import RenameDialog from '@/components/dialogs/RenameDialog'
+import ErrorDialog from '@/components/dialogs/ErrorDialog'
+import PropertiesDialog from '@/components/dialogs/PropertiesDialog'
+import UploadDialog from '@/components/dialogs/upload-dialog/UploadDialog'
 
 import childSorter from '@/helpers/childSorter.js'
 
