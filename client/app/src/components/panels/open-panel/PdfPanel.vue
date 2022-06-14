@@ -1,16 +1,26 @@
 <template>
   <div class="openPanelContainer">
-    <div v-for="i in pagesLoaded" :key="i">
-      <pdf :src="pdfData" :page="i" :annotation="true" :resize="true" />
-      <div class="pageBreak">
-        <span>Page {{ i }} of {{ pagesTotal }}</span>
+    <div
+      class="zoomedView"
+      @click="zoomToggled = !zoomToggled"
+      :class="{ defaultView: zoomToggled }"
+    >
+      <div v-for="i in pagesLoaded" :key="i">
+        <pdf :src="pdfData" :page="i" :annotation="true" :resize="true" />
+        <div class="pageBreak">
+          <span>Page {{ i }} of {{ pagesTotal }}</span>
+        </div>
       </div>
+      <template v-if="pagesLoaded < pagesTotal">
+        <button
+          class="actionButton"
+          id="loadmoreBtn"
+          @click.stop="loadMorePages"
+        >
+          Load more pages
+        </button>
+      </template>
     </div>
-    <template v-if="pagesLoaded < pagesTotal">
-      <button class="actionButton" id="loadmoreBtn" @click="loadMorePages">
-        Load more pages
-      </button>
-    </template>
   </div>
 </template>
 
@@ -29,7 +39,8 @@ export default {
     return {
       pagesTotal: 0,
       pdfData: undefined,
-      pagesLoaded: 0
+      pagesLoaded: 0,
+      zoomToggled: true
     }
   },
   methods: {
@@ -57,6 +68,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.zoomedView {
+  width: 100%;
+}
+.defaultView {
+  margin: auto;
+  width: 800px;
+}
+// max-width +50px for margins
+@media only screen and (max-width: 850px) {
+  .defaultView {
+    width: 100%;
+  }
+}
 .pageBreak {
   background-color: $color-border;
   padding: 2px;
