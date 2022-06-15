@@ -1,5 +1,3 @@
-const ip = require('ip')
-
 const { NON_LOCAL_READ_ONLY } = require('../config.js')
 
 module.exports = (method) => {
@@ -18,7 +16,8 @@ module.exports = (method) => {
     
     // check if local
     const clientIp = req.headers['x-forwarded-for']
-    if (!clientIp || ip.isPublic(clientIp)) // not local
+
+    if (!clientIp || !isIpPublic(clientIp)) // not local
       return res.status(403).send({
         'success': false,
         'message': 'permission denied! read only access allowed.'
@@ -27,3 +26,12 @@ module.exports = (method) => {
     next()
   }
 }
+
+function isIpPublic(ip) {
+  // https://www.npmjs.com/package/ip
+  return /^10\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/i.test(ip)
+    || /^192\.168\.([0-9]{1,3})\.([0-9]{1,3})$/i.test(ip)
+    || /^172\.(1[6-9]|2\d|30|31)\.([0-9]{1,3})\.([0-9]{1,3})$/i.test(ip)
+    || /^127\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/i.test(ip)
+    || /^169\.254\.([0-9]{1,3})\.([0-9]{1,3})$/i.test(ip)
+} 
