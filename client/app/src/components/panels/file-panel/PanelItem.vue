@@ -1,7 +1,18 @@
 <template>
-  <div id="panelitem" :class="{ focused: focused }" @click="itemClick">
+  <div
+    id="panelitem"
+    @click="itemClick"
+    :class="{
+      focused: focused,
+      zoomNeg2: zoomLevel === -2,
+      zoomNeg1: zoomLevel === -1,
+      zoom0: zoomLevel === 0,
+      zoomPos1: zoomLevel === 1,
+      zoomPos2: zoomLevel === 2,
+    }"
+  >
     <div>
-      <img draggable="false" :src="fileicon" />
+      <img id="icon" draggable="false" :src="fileicon" />
     </div>
     <p>
       {{ item.name }}
@@ -15,7 +26,8 @@ export default {
   name: 'PanelItem',
   props: [
     'item',
-    'focused'
+    'focused',
+    'zoomLevel'
   ],
   data() {
     return {
@@ -39,8 +51,6 @@ export default {
 #panelitem {
   display: block;
   float: left;
-  width: 100px;
-  height: 160px;
   border-radius: 10px;
   margin: 2px;
   padding-top: 8px;
@@ -69,6 +79,42 @@ export default {
   background-color: $color-active;
   p {
     background-color: $color-active;
+  }
+}
+
+.zoomNeg2 {
+  width: 60px;
+  height: 100px;
+  #icon {
+    width: 30px;
+  }
+}
+.zoomNeg1 {
+  width: 80px;
+  height: 120px;
+  #icon {
+    width: 50px;
+  }
+}
+.zoom0 {
+  width: 100px;
+  height: 160px;
+  #icon {
+    width: 70px;
+  }
+}
+.zoomPos1 {
+  width: 120px;
+  height: 200px;
+  #icon {
+    width: 100px;
+  }
+}
+.zoomPos2 {
+  width: 140px;
+  height: 240px;
+  #icon {
+    width: 130px;
   }
 }
 </style>

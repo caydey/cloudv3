@@ -9,6 +9,7 @@
           @drop="onItemDrop($event, item)"
           :focused="contextMenuFocus && item.name === contextMenuFocus.name"
           :item="item"
+          :zoomLevel="zoomLevel"
           @contextmenu.stop.prevent="showContextMenu($event, item)"
         />
       </div>
@@ -59,7 +60,13 @@ export default {
   data() {
     return {
       contextMenuFocus: null,
+      zoomLevel: 0,
     }
+  },
+  mounted() {
+    // reload zoom level from localstorage
+    let savedZoomLevel = Number(localStorage.getItem('ZOOM_LEVEL')) || 0
+    this.zoomLevel = savedZoomLevel
   },
   methods: {
     onItemDrag(event, item) {
@@ -109,7 +116,7 @@ export default {
         this.contextMenuFocus = item
       } else { // panel
         this.contextMenuFocus = this.exploredData
-        contextMenuActions = ['NEW_FOLDER', 'UPLOAD', 'PASTE', 'PROPERTIES']
+        contextMenuActions = ['NEW_FOLDER', 'UPLOAD', 'PASTE', 'ZOOM_IN', 'ZOOM_OUT', 'ZOOM_ORIGINAL', 'PROPERTIES']
       }
 
       let contextMenuPos = {
@@ -157,8 +164,32 @@ export default {
           case 'OPEN_IN_BROWSER':
             this.openInBrowserAction(focusedItem)
             break
+          case 'ZOOM_IN':
+            this.zoomAction(1)
+            break
+          case 'ZOOM_OUT':
+            this.zoomAction(-1)
+            break
+          case 'ZOOM_ORIGINAL':
+            this.zoomAction(0)
+            break
         }
       })
+    },
+    zoomAction(zoomIncrement) {
+      let newZoom = this.zoomLevel + zoomIncrement
+
+      // reset zoom
+      if (zoomIncrement === 0)
+        newZoom = 0
+
+      // zoom out of bounds
+      if (newZoom < -2 || newZoom > 2)
+        return
+
+      // apply zoom level and save to local storage
+      this.zoomLevel = newZoom
+      localStorage.setItem('ZOOM_LEVEL', this.zoomLevel)
     },
     openInBrowserAction(focusedItem) {
       window.open(focusedItem.location, '_blank');
