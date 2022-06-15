@@ -87,14 +87,13 @@ export default {
       return this.$store.state.explorer.path
     },
     trailItems() {
-      const path = this.path
-      let trailItems;
-      if (!path || path === '/') {
-        trailItems = ['']
-      } else {
-        // .filter(item => item) removes any empty elements from array
-        trailItems = path.split('/').filter(item => item)
-      }
+      // '/var/www//html' => ['var', 'www', '', 'html']
+      let trailItems = this.path.split('/')
+      // ['var', 'www', '', 'html'] => ['var', 'www', 'html']
+      trailItems = trailItems.filter(item => item)
+      // ['var', 'www', 'html'] => ['/', 'var', 'www', 'html']
+      trailItems.unshift('/')
+
       return trailItems
     }
   }
