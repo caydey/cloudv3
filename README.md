@@ -8,6 +8,6 @@ Inspired by [Thunar File Manager](https://docs.xfce.org/xfce/thunar/start), [Mat
 
 - docker-compose is required
 - `git clone https://github.com/caydey/cloudv3`
-- `cd cloudv3`
+- `cd cloudv3/`
 - `vim config.env`
 - `./deploy.sh`
