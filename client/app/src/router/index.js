@@ -3,12 +3,12 @@ import ExploreView from '../views/ExploreView.vue'
 
 const routes = [
   {
-    path: '/explore/:all*',
+    path: '/explore/:pathMatch(.*)*',
     name: 'explore',
     component: ExploreView
   },
   {
-    path: '/:all*',
+    path: '/:pathMatch(.*)*',
     redirect: '/explore',
   }
 ]

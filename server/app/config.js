@@ -1,17 +1,22 @@
 // static file server - production
 var STATIC_HOST = '/static'
-// static file server - development
-if (process.env.NODE_ENV === 'development')
+
+// data root - production, (docker shared volume)
+var DATA_ROOT = '/data'
+
+if (process.env.NODE_ENV === 'development') {
+  // static file server - development
   STATIC_HOST = 'http://localhost:3000/static'
 
-// data root
-var DATA_ROOT = process.env.DATA_ROOT
+  // data root - development
+  DATA_ROOT = process.env.DATA_ROOT  
+}
 
 // non local access
-var NON_LOCAL_READ_ONLY = process.env.NON_LOCAL_READ_ONLY || true
+var NON_LOCAL_READ_ONLY = (process.env.NON_LOCAL_READ_ONLY === 'true')
 
 // disclose free space
-var HIDE_FREE_SPACE = process.env.HIDE_FREE_SPACE || false
+var HIDE_FREE_SPACE = (process.env.HIDE_FREE_SPACE === 'true')
 
 module.exports = {
   STATIC_HOST,
