@@ -132,47 +132,33 @@ export default {
         this.contextMenuFocus = null
         switch (action) {
           case 'OPEN':
-            this.openAction(focusedItem)
-            break
+            return this.openAction(focusedItem)
           case 'COPY':
-            this.copyAction(focusedItem)
-            break
+            return this.copyAction(focusedItem)
           case 'CUT':
-            this.cutAction(focusedItem)
-            break
+            return this.cutAction(focusedItem)
           case 'PASTE':
-            this.pasteAction(focusedItem)
-            break
+            return this.pasteAction(focusedItem)
           case 'RENAME':
-            this.renameAction(focusedItem)
-            break
+            return this.renameAction(focusedItem)
           case 'DELETE':
-            this.deleteAction(focusedItem)
-            break
+            return this.deleteAction(focusedItem)
           case 'DOWNLOAD':
-            this.downloadAction(focusedItem)
-            break
+            return this.downloadAction(focusedItem)
           case 'PROPERTIES':
-            this.propertiesAction(focusedItem)
-            break
+            return this.propertiesAction(focusedItem)
           case 'NEW_FOLDER':
-            this.newFolderAction(focusedItem)
-            break
+            return this.newFolderAction(focusedItem)
           case 'UPLOAD':
-            this.uploadAction(focusedItem)
-            break
+            return this.uploadAction(focusedItem)
           case 'OPEN_IN_BROWSER':
-            this.openInBrowserAction(focusedItem)
-            break
+            return this.openInBrowserAction(focusedItem)
           case 'ZOOM_IN':
-            this.zoomAction(1)
-            break
+            return this.zoomAction(1)
           case 'ZOOM_OUT':
-            this.zoomAction(-1)
-            break
+            return this.zoomAction(-1)
           case 'ZOOM_ORIGINAL':
-            this.zoomAction(0)
-            break
+            return this.zoomAction(0)
         }
       })
     },
