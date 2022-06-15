@@ -103,6 +103,32 @@
       </div>
     </template>
 
+    <!-- ZOOM_IN -->
+    <template v-if="menuActions.includes('ZOOM_IN')">
+      <!-- ROW_BREAK -->
+      <div class="rowBreak" />
+      <div class="row" @click="clipboardAction('ZOOM_IN')">
+        <ActionIcon class="icon" icon="zoom-in" />
+        <span>Zoom In</span>
+      </div>
+    </template>
+
+    <!-- ZOOM_OUT -->
+    <template v-if="menuActions.includes('ZOOM_OUT')">
+      <div class="row" @click="clipboardAction('ZOOM_OUT')">
+        <ActionIcon class="icon" icon="zoom-out" />
+        <span>Zoom Out</span>
+      </div>
+    </template>
+
+    <!-- ZOOM_ORIGINAL -->
+    <template v-if="menuActions.includes('ZOOM_ORIGINAL')">
+      <div class="row" @click="clipboardAction('ZOOM_ORIGINAL')">
+        <ActionIcon class="icon" icon="zoom-original" />
+        <span>Normal Size</span>
+      </div>
+    </template>
+
     <!-- PROPERTIES -->
     <template v-if="menuActions.includes('PROPERTIES')">
       <!-- ROW_BREAK -->
