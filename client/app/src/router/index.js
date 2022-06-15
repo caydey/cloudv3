@@ -9,7 +9,7 @@ const routes = [
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/explore',
+    redirect: '/explore'
   }
 ]
 
