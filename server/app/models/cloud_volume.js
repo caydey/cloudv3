@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
-const { DATA_ROOT, HIDE_FREE_SPACE } = require('../config.js')
+const { DATA_ROOT, HIDE_DISK_SIZE } = require('../config.js')
 const checkDiskSpace = require('check-disk-space').default
 
 // only allow checkDiskSpace to be run at most once every minute
@@ -11,6 +11,9 @@ class CloudSizeMonitor {
   static #lastQuery = 0
   static #lastSize = { free: 0, total: 0 }
   static getStats() {
+    if (HIDE_DISK_SIZE)
+      return { free: -1, total: -1 }
+
     if (this.#lastQuery < (Date.now()-this.#TIMEOUT))
       this.#updateSize()
 
@@ -20,7 +23,7 @@ class CloudSizeMonitor {
     this.#lastQuery = Date.now()
     checkDiskSpace(DATA_ROOT).then((diskSpace) => {
       this.#lastSize = {
-        free: (HIDE_FREE_SPACE) ? 0 : diskSpace.free,
+        free: diskSpace.free,
         total: diskSpace.size
       }
     })

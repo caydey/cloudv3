@@ -16,11 +16,11 @@ if (process.env.NODE_ENV === 'development') {
 var NON_LOCAL_READ_ONLY = (process.env.NON_LOCAL_READ_ONLY === 'true')
 
 // disclose free space
-var HIDE_FREE_SPACE = (process.env.HIDE_FREE_SPACE === 'true')
+var HIDE_DISK_SIZE = (process.env.HIDE_DISK_SIZE === 'true')
 
 module.exports = {
   STATIC_HOST,
   NON_LOCAL_READ_ONLY,
   DATA_ROOT,
-  HIDE_FREE_SPACE
+  HIDE_DISK_SIZE
 }
