@@ -8,7 +8,7 @@ services:
       - ${DATA_ROOT:?err}:/data
     environment:
       - NON_LOCAL_READ_ONLY=${NON_LOCAL_READ_ONLY:?err}
-      - HIDE_FREE_SPACE=${HIDE_FREE_SPACE:?err}
+      - HIDE_DISK_SIZE=${HIDE_DISK_SIZE:?err}
     # uid of the owner of the DATA_ROOT folder so the api can
     # pretent to be the user making the changes to the file
     user: "${DATA_ROOT_UID:?err}:${DATA_ROOT_UID:?err}"
