@@ -18,7 +18,7 @@ import bytesToHuman from '@/helpers/bytesToHuman.js'
 export default {
   name: 'BottomToolbar',
   methods: {
-    getSizeStats: function (bytes) {
+    formatBytes: function (bytes) {
       let bytesHuman = `${bytes.toLocaleString()} byte`
       bytesHuman += ((bytes == 1) ? '' : 's')
       let sizeStats = `${bytesHuman}`
@@ -28,9 +28,25 @@ export default {
       }
       return sizeStats
     },
+    millisecondsToHuman: function (milli) {
+      const steps = [60, 24, 7, 52, 100]
+      const units = ['m', 'h', 'd', 'w', 'y']
+
+      const skip = 1_000 * 60 // miliseconds and seconds
+      let time = Math.floor(milli / skip)
+      let human = ''
+      let rem = 0
+      for (let i = 0; i < steps.length; i++) {
+        rem = time % steps[i]
+        time = Math.floor(time / steps[i])
+        if (rem > 0)
+          human = `${rem}${units[i]} ${human}`
+      }
+      return human
+    },
     getDirectoryStats: function (exploredData) {
       // 2.8 KiB (2,832 bytes)
-      let sizeStats = this.getSizeStats(exploredData.size)
+      let sizeStats = this.formatBytes(exploredData.size)
       // 3 folders, 5 files
       let files = 0
       let folders = 0
@@ -50,34 +66,22 @@ export default {
       else if (files == 0)
         fileFolderStats = `${folderString}`
 
+      // free space hidden
+      if (exploredData.free === -1)
+        return `${fileFolderStats}: ${sizeStats}`
+
       // Free space 16.0 GiB
       let freeSpace = `Free space: ${bytesToHuman(exploredData.free)}`
       return `${fileFolderStats}: ${sizeStats}, ${freeSpace}`
     },
     getFileStats: function (fileObj) {
-      let sizeStats = this.getSizeStats(fileObj.size)
+      let sizeStats = this.formatBytes(fileObj.size)
 
       let lastModifiedMilli = Date.now() - new Date(fileObj.modified)
       let lastModified = this.millisecondsToHuman(lastModifiedMilli)
 
       let content = `File, ${sizeStats},  modified: ${lastModified} ago, mime: ${fileObj.mime}`
       return content
-    },
-    millisecondsToHuman: function (milli) {
-      const steps = [60, 24, 7, 52, 100]
-      const units = ['m', 'h', 'd', 'w', 'y']
-
-      const skip = 1_000 * 60 // miliseconds and seconds
-      let time = Math.floor(milli / skip)
-      let human = ''
-      let rem = 0
-      for (let i = 0; i < steps.length; i++) {
-        rem = time % steps[i]
-        time = Math.floor(time / steps[i])
-        if (rem > 0)
-          human = `${rem}${units[i]} ${human}`
-      }
-      return human
     }
   },
   computed: {
