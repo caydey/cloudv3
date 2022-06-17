@@ -1,6 +1,6 @@
 const checkDiskSpace = require('check-disk-space').default
 
-const { DATA_ROOT, HIDE_FREE_SPACE } = require('../config.js')
+const { DATA_ROOT, HIDE_DISK_SIZE } = require('../config.js')
 
 // only allow checkDiskSpace to be run at most once every minute
 // by caching the output and updating it after the 'getSize' function
@@ -22,7 +22,7 @@ function updateSize () {
 updateSize() // force update
 
 const getCloudSizeStats = function () {
-  if (HIDE_FREE_SPACE) {
+  if (HIDE_DISK_SIZE) {
     return { free: -1, total: -1 }
   }
   if (lastQuery < (Date.now() - TIMEOUT)) {
