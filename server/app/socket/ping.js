@@ -2,12 +2,12 @@
 module.exports = (wss) => {
   // on client connect
   wss.on('connection', (ws) => {
-    ws.isAlive = true; // added field to ws object
+    ws.isAlive = true // added field to ws object
     // pong is what all websocket clients will respond to when send a ping
     ws.on('pong', () => {
-      ws.isAlive = true;
-    });
-  });
+      ws.isAlive = true
+    })
+  })
 
   /*
   every 30 seconds
@@ -19,15 +19,15 @@ module.exports = (wss) => {
     else
       kill client
   */
-  const interval = setInterval(() => {
+  setInterval(() => {
     wss.clients.forEach((ws) => {
       if (ws.isAlive) {
-        ws.isAlive = false;
-        ws.ping();
+        ws.isAlive = false
+        ws.ping()
       } else { // dead
-        console.log("client terminated");
-        ws.terminate();
+        console.log('client terminated')
+        ws.terminate()
       }
-    });
-  }, 30_000);
+    })
+  }, 30_000)
 }
