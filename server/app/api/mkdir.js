@@ -37,7 +37,7 @@ router.post('/', (req, res) => { // ?path
   fs.mkdir(cloudPath.system, { recursive: true }, (err) => {
     if (err) {
       const errMessage = translateErrorCode(err.code)
-      return res.status(500).send({
+      return res.status(200).send({
         success: false,
         message: errMessage
       })
