@@ -1,5 +1,4 @@
-const fs = require('fs-extra');
-const path = require('path');
+const path = require('path')
 const { DATA_ROOT, HIDE_FREE_SPACE } = require('../config.js')
 const checkDiskSpace = require('check-disk-space').default
 
@@ -7,16 +6,18 @@ const checkDiskSpace = require('check-disk-space').default
 // by caching the output and updating it after the 'getSize' method
 // is called
 class CloudSizeMonitor {
-  static #TIMEOUT = 60*1_000 // 1 minute
+  static #TIMEOUT = 60 * 1_000 // 1 minute
   static #lastQuery = 0
   static #lastSize = { free: 0, total: 0 }
-  static getStats() {
-    if (this.#lastQuery < (Date.now()-this.#TIMEOUT))
+  static getStats () {
+    if (this.#lastQuery < (Date.now() - this.#TIMEOUT)) {
       this.#updateSize()
+    }
 
     return this.#lastSize
   }
-  static #updateSize() {
+
+  static #updateSize () {
     this.#lastQuery = Date.now()
     checkDiskSpace(DATA_ROOT).then((diskSpace) => {
       this.#lastSize = {
@@ -28,23 +29,20 @@ class CloudSizeMonitor {
 }
 CloudSizeMonitor.getStats() // force update
 
-exports.getCloudDiskStats = function() {
+exports.getCloudDiskStats = function () {
   return CloudSizeMonitor.getStats()
 }
 
-
 class CloudPath {
-  constructor(givenPath, type) {
+  constructor (givenPath, type) {
     if (type === 'SYSTEM') {
       this.system = givenPath
-      this.virtual = givenPath.replace(DATA_ROOT, "")
+      this.virtual = givenPath.replace(DATA_ROOT, '')
     } else {
-      let sterilePath = path.join('/', givenPath)
+      const sterilePath = path.join('/', givenPath)
       this.virtual = sterilePath
       this.system = path.join(DATA_ROOT, sterilePath)
     }
   }
 }
 exports.CloudPath = CloudPath
-
-

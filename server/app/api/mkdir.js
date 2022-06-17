@@ -5,32 +5,32 @@ const translateErrorCode = require('../helpers/translateErrorCode.js')
 
 const { CloudPath } = require('../models/cloud_volume.js')
 
-var router = express.Router()
+const router = express.Router()
 
-router.post('/', (req, res) => {  // ?path
+router.post('/', (req, res) => { // ?path
   const givenPath = req.body.path
   if (!givenPath) {
     return res.status(400).send({
-      'success': false,
-      'message': 'path not defined'
+      success: false,
+      message: 'path not defined'
     })
   }
 
-  let cloudPath = new CloudPath(givenPath)
+  const cloudPath = new CloudPath(givenPath)
 
   if (!fs.existsSync(path.dirname(cloudPath.system))) {
     return res.status(200).send({
-      'success': false,
-      'message': 'parent directory not found',
-      'data': { 'path': givenPath }
+      success: false,
+      message: 'parent directory not found',
+      data: { path: givenPath }
     })
   }
 
   if (fs.existsSync(cloudPath.system)) {
     return res.status(200).send({
-      'success': false,
-      'message': 'folder/file already exists at path',
-      'data': { 'path': givenPath }
+      success: false,
+      message: 'folder/file already exists at path',
+      data: { path: givenPath }
     })
   }
 
@@ -38,15 +38,14 @@ router.post('/', (req, res) => {  // ?path
     if (err) {
       const errMessage = translateErrorCode(err.code)
       return res.status(500).send({
-        'success': false,
-        'message': errMessage
+        success: false,
+        message: errMessage
       })
     }
     res.status(200).send({
-      'success': true
+      success: true
     })
   })
 })
-
 
 exports.router = router

@@ -1,44 +1,42 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require('express')
+const bodyParser = require('body-parser')
 
-const routes = require('./routes');
-const errors = require('./errors');
+const routes = require('./routes')
+const errors = require('./errors')
 const socket = require('./socket/socket')
 
-const logger = require('./logger')
-
 // server setup
-const app = express();
+const app = express()
 
-const port = 3000;
+const port = 3000
 
 // parsing json and form data
-app.use(express.json()); // parsing json
-app.use(bodyParser.urlencoded({ extended: true })); // parsing forms
-
+app.use(express.json()) // parsing json
+app.use(bodyParser.urlencoded({ extended: true })) // parsing forms
 
 // development
 if (process.env.NODE_ENV === 'development') {
-  const cors = require('cors');
+  const cors = require('cors')
   // serve static files
-  app.use("/static", cors(), express.static(process.env.DATA_ROOT));
+  app.use('/static', cors(), express.static(process.env.DATA_ROOT))
   // Cross Origin Resource Sharing
-  app.use(cors());
+  app.use(cors())
 
   // my custom logger middleware
+  const logger = require('./logger')
   app.use(logger)
 }
 
 // configure api routes
-routes(app);
+routes(app)
 
 // handle errors
-errors(app);
+errors(app)
 
 // begin server
 const server = app.listen(port, () => {
-  console.log('Server listening at http://localhost:%s', port);
-});
+  console.log('Server listening at http://localhost:%s', port)
+})
 
 // handle websockets
 socket(server)

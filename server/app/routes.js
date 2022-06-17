@@ -6,7 +6,7 @@ const apiUpload = require('./api/upload.js')
 
 const accessController = require('./middleware/accessController.js')
 
-const routes = ((route) => {
+const routes = (route) => {
   route.use(
     '/api/explore',
     accessController('EXPLORE'),
@@ -18,13 +18,13 @@ const routes = ((route) => {
     accessController('MKDIR'),
     apiMkdir.router
   )
-  
+
   route.use(
     '/api/delete',
     accessController('DELETE'),
     apiDelete.router
   )
-  
+
   route.use(
     '/api/upload',
     accessController('UPLOAD'),
@@ -52,6 +52,6 @@ const routes = ((route) => {
     ],
     apiCopyMove.router
   )
-})
+}
 
 module.exports = routes
