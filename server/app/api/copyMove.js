@@ -1,8 +1,9 @@
 const express = require('express')
 const fs = require('fs-extra')
 const path = require('path')
+
 const translateErrorCode = require('../helpers/translateErrorCode.js')
-const { CloudPath } = require('../models/cloud_volume.js')
+const CloudPath = require('../models/CloudPath.js')
 
 const router = express.Router()
 

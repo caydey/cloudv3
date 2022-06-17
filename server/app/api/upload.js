@@ -2,7 +2,7 @@ const express = require('express')
 
 const fs = require('fs')
 const multer = require('multer')
-const { CloudPath } = require('../models/cloud_volume.js')
+const CloudPath = require('../models/CloudPath.js')
 
 const router = express.Router()
 

@@ -1,10 +1,10 @@
 const express = require('express')
-const { CloudPath } = require('../models/cloud_volume.js')
 const fs = require('fs-extra')
 
-const router = express.Router()
-
+const CloudPath = require('../models/CloudPath.js')
 const translateErrorCode = require('../helpers/translateErrorCode.js')
+
+const router = express.Router()
 
 router.post('/', (req, res) => { // ?path?recursive
   const givenPath = req.body.path
