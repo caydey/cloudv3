@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs-extra')
 const path = require('path')
-const mime = require('mime-types')
+const mime = require('./mimetypes')
 const CloudPath = require('../models/CloudPath.js')
 
 const { STATIC_HOST } = require('../config.js')
