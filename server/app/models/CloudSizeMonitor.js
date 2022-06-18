@@ -6,7 +6,7 @@ const { DATA_ROOT, HIDE_DISK_SIZE } = require('../config.js')
 // by caching the output and updating it after the 'getSize' function
 // is called
 
-const TIMEOUT = 60 * 1_000 // 1 minute
+const TIMEOUT = 1 * 60 * 1_000 // 1 minute
 let lastQuery = 0
 let lastSize = { free: 0, total: 0 }
 
