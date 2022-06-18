@@ -25,7 +25,6 @@ module.exports = (wss) => {
         ws.isAlive = false
         ws.ping()
       } else { // dead
-        console.log('client terminated')
         ws.terminate()
       }
     })
