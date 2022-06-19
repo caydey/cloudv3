@@ -154,28 +154,19 @@ export default {
           case 'OPEN_IN_BROWSER':
             return this.openInBrowserAction(focusedItem)
           case 'ZOOM_IN':
-            return this.zoomAction(1)
+            return this.zoomIncrement(1)
           case 'ZOOM_OUT':
-            return this.zoomAction(-1)
+            return this.zoomIncrement(-1)
           case 'ZOOM_ORIGINAL':
-            return this.zoomAction(0)
+            return this.zoomOriginal()
         }
       })
     },
-    zoomAction(zoomIncrement) {
-      let newZoom = this.zoomLevel + zoomIncrement
-
-      // reset zoom
-      if (zoomIncrement === 0)
-        newZoom = 0
-
-      // zoom out of bounds
-      if (newZoom < -2 || newZoom > 2)
-        return
-
-      // apply zoom level and save to local storage
-      this.zoomLevel = newZoom
-      localStorage.setItem('ZOOM_LEVEL', this.zoomLevel)
+    zoomIncrement(zoomIncrement) {
+      this.$store.commit('settings/incrementZoom', zoomIncrement)
+    },
+    zoomOriginal() {
+      this.$store.commit('settings/resetZoom')
     },
     openInBrowserAction(focusedItem) {
       window.open(focusedItem.location, '_blank');
@@ -287,7 +278,7 @@ export default {
       exploredData: 'explorer/data',
     }),
     children() {
-      return childSorter(this.$store.state.explorer.data.children)
+      return childSorter(this.exploredData.children)
     }
   }
 }

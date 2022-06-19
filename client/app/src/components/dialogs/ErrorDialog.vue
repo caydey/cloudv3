@@ -20,8 +20,8 @@ export default {
   },
   data() {
     return {
-      title: 'Error renaming file',
-      message: 'Cannot rename file to a name that already is the name'
+      title: '',
+      message: ''
     }
   },
   methods: {
