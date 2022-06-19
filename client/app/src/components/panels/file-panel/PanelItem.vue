@@ -22,12 +22,13 @@
 
 <script>
 import iconFromMime from '@/helpers/iconFromMime'
+
+import { mapGetters } from 'vuex'
 export default {
   name: 'PanelItem',
   props: [
     'item',
-    'focused',
-    'zoomLevel'
+    'focused'
   ],
   data() {
     return {
@@ -43,6 +44,11 @@ export default {
     let mimetype = this.item.mime;
     if (this.item.type === 'directory') mimetype = 'folder'
     this.fileicon = iconFromMime(mimetype)
+  },
+  computed: {
+    ...mapGetters({
+      zoomLevel: 'settings/zoomLevel',
+    }),
   }
 }
 </script>
