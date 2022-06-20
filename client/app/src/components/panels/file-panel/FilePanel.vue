@@ -38,7 +38,7 @@ import ErrorDialog from '@/components/dialogs/ErrorDialog'
 import PropertiesDialog from '@/components/dialogs/PropertiesDialog'
 import UploadDialog from '@/components/dialogs/upload-dialog/UploadDialog'
 
-import childSorter from '@/helpers/childSorter.js'
+import arangeFiles from '@/helpers/arangeFiles.js'
 
 import { mapGetters } from 'vuex'
 
@@ -276,9 +276,17 @@ export default {
   computed: {
     ...mapGetters({
       exploredData: 'explorer/data',
+      sortField: 'settings/sortField',
+      sortAscending: 'settings/sortAscending',
+      sortFoldersFirst: 'settings/sortFoldersFirst'
     }),
     children() {
-      return childSorter(this.exploredData.children)
+      const children = arangeFiles(this.exploredData.children, {
+        field: this.sortField,
+        foldersFirst: this.sortFoldersFirst,
+        ascending: this.sortAscending
+      })
+      return children
     }
   }
 }
