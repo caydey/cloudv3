@@ -116,7 +116,7 @@ export default {
         this.contextMenuFocus = item
       } else { // panel
         this.contextMenuFocus = this.exploredData
-        contextMenuActions = ['NEW_FOLDER', 'UPLOAD', 'PASTE', 'ZOOM_IN', 'ZOOM_OUT', 'ZOOM_ORIGINAL', 'PROPERTIES']
+        contextMenuActions = ['NEW_FOLDER', 'UPLOAD', 'PASTE', 'ARANGEMENT', 'ZOOM_IN', 'ZOOM_OUT', 'ZOOM_ORIGINAL', 'PROPERTIES']
       }
 
       let contextMenuPos = {

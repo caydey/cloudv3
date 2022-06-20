@@ -103,6 +103,16 @@
       </div>
     </template>
 
+    <!-- ARANGEMENT -->
+    <template v-if="menuActions.includes('ARANGEMENT')">
+      <!-- ROW_BREAK -->
+      <div class="rowBreak" />
+      <div class="row" @click="clipboardAction('ARANGEMENT')">
+        <ActionIcon class="icon" icon="arangement" />
+        <span>Arange Items...</span>
+      </div>
+    </template>
+
     <!-- ZOOM_IN -->
     <template v-if="menuActions.includes('ZOOM_IN')">
       <!-- ROW_BREAK -->
