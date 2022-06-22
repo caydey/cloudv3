@@ -1,9 +1,10 @@
 
 // initial state
 const state = {
-  zoomLevel: Number(localStorage.getItem('ZOOM_LEVEL')),
-  sortOrder: localStorage.getItem('SORT_ORDER'),
-  sortDirection: localStorage.getItem('SORT_DIRECTION')
+  zoomLevel: JSON.parse(localStorage.getItem('ZOOM_LEVEL') || '0'),
+  sortField: localStorage.getItem('SORT_FIELD') || 'name',
+  sortAscending: JSON.parse(localStorage.getItem('SORT_ASCENDING') || 'true'),
+  sortFoldersFirst: JSON.parse(localStorage.getItem('SORT_FOLDERS_FIRST') || 'true')
 }
 
 
@@ -12,12 +13,15 @@ const getters = {
   zoomLevel(state) {
     return state.zoomLevel
   },
-  sortOrder(state) {
-    return state.sortOrder
+  sortField(state) {
+    return state.sortField
   },
-  sortDirection(state) {
-    return state.sortDirection
+  sortAscending(state) {
+    return state.sortAscending
   },
+  sortFoldersFirst(state) {
+    return state.sortFoldersFirst
+  }
 }
 
 // mutations
@@ -33,15 +37,20 @@ const mutations = {
     state.zoomLevel = newLevel
   },
   resetZoom(state) {
+    localStorage.setItem('ZOOM_LEVEL', 0)
     state.zoomLevel = 0
   },
-  setSortOrder(state, sortOrder) {
-    localStorage.setItem('SORT_ORDER', sortOrder)
-    state.sortOrder = sortOrder
+  setSortField(state, sortField) {
+    localStorage.setItem('SORT_FIELD', sortField)
+    state.sortField = sortField
   },
-  setSortDirection(state, sortDirection) {
-    localStorage.setItem('SORT_DIRECTION', sortDirection)
-    state.zoomLevel = sortDirection
+  setSortAscending(state, sortAscending) {
+    localStorage.setItem('SORT_ASCENDING', sortAscending)
+    state.sortAscending = sortAscending
+  },
+  setSortFoldersFirst(state, sortFoldersFirst) {
+    localStorage.setItem('SORT_FOLDERS_FIRST', JSON.stringify(sortFoldersFirst))
+    state.sortFoldersFirst = sortFoldersFirst
   }
 }
 
