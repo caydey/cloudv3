@@ -111,7 +111,6 @@ export default {
       this.$store.commit('settings/setSortField', this.field)
     },
     order() {
-      console.log(this.order);
       this.$store.commit('settings/setSortAscending', this.order === 'ASCENDING')
     },
     foldersFirst() {
