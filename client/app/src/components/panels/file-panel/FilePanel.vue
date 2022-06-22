@@ -9,7 +9,6 @@
           @drop="onItemDrop($event, item)"
           :focused="contextMenuFocus && item.name === contextMenuFocus.name"
           :item="item"
-          :zoomLevel="zoomLevel"
           @contextmenu.stop.prevent="showContextMenu($event, item)"
         />
       </div>
@@ -23,6 +22,7 @@
     <ErrorDialog ref="errorDialog" />
     <PropertiesDialog ref="propertiesDialog" />
     <UploadDialog ref="uploadDialog" />
+    <ArangementDialog ref="arangementDialog" />
   </div>
 </template>
 
@@ -37,6 +37,7 @@ import RenameDialog from '@/components/dialogs/RenameDialog'
 import ErrorDialog from '@/components/dialogs/ErrorDialog'
 import PropertiesDialog from '@/components/dialogs/PropertiesDialog'
 import UploadDialog from '@/components/dialogs/upload-dialog/UploadDialog'
+import ArangementDialog from '@/components/dialogs/ArangementDialog'
 
 import arangeFiles from '@/helpers/arangeFiles.js'
 
@@ -50,12 +51,13 @@ export default {
   components: {
     PanelItem,
     ContextMenu,
+    DragMenu,
     DeleteDialog,
     RenameDialog,
     ErrorDialog,
     PropertiesDialog,
     UploadDialog,
-    DragMenu
+    ArangementDialog
   },
   data() {
     return {
@@ -159,8 +161,13 @@ export default {
             return this.zoomIncrement(-1)
           case 'ZOOM_ORIGINAL':
             return this.zoomOriginal()
+          case 'ARANGEMENT':
+            return this.arangementAction()
         }
       })
+    },
+    arangementAction() {
+      this.$refs.arangementDialog.show()
     },
     zoomIncrement(zoomIncrement) {
       this.$store.commit('settings/incrementZoom', zoomIncrement)
@@ -277,8 +284,8 @@ export default {
     ...mapGetters({
       exploredData: 'explorer/data',
       sortField: 'settings/sortField',
-      sortAscending: 'settings/sortAscending',
-      sortFoldersFirst: 'settings/sortFoldersFirst'
+      sortFoldersFirst: 'settings/sortFoldersFirst',
+      sortAscending: 'settings/sortAscending'
     }),
     children() {
       const children = arangeFiles(this.exploredData.children, {
