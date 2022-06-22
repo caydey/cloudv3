@@ -50,7 +50,7 @@ export default {
     this.routeChange(this.$router.currentRoute._value)
   },
   methods: {
-    routeChange: function (route) {
+    routeChange(route) {
       // when $router changes check if $store value matches
       // if not then the $router change was done through the browser (back/forward)
       // so we need to manualy update the $store values
