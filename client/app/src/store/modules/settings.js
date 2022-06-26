@@ -48,8 +48,9 @@ const mutations = {
     localStorage.setItem('SORT_ASCENDING', sortAscending)
     state.sortAscending = sortAscending
   },
-  setSortFoldersFirst(state, sortFoldersFirst) {
-    localStorage.setItem('SORT_FOLDERS_FIRST', JSON.stringify(sortFoldersFirst))
+  toggleSortFoldersFirst(state) {
+    const sortFoldersFirst = !state.sortFoldersFirst
+    localStorage.setItem('SORT_FOLDERS_FIRST', sortFoldersFirst)
     state.sortFoldersFirst = sortFoldersFirst
   }
 }
