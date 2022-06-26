@@ -131,7 +131,8 @@ export default {
         this.contextMenuFocus = null
         switch (action) {
           case 'OPEN':
-            return this.openAction(focusedItem)
+            this.$store.commit('explorer/setPath', focusedItem.path)
+            break
           case 'COPY':
             return this.copyAction(focusedItem)
           case 'CUT':
@@ -143,23 +144,27 @@ export default {
           case 'DELETE':
             return this.deleteAction(focusedItem)
           case 'DOWNLOAD':
-            return this.downloadAction(focusedItem)
+            window.location.assign(focusedItem.location)
+            break
           case 'PROPERTIES':
-            return this.propertiesAction(focusedItem)
+            this.$refs.propertiesDialog.show(focusedItem)
+            break
           case 'NEW_FOLDER':
             return this.newFolderAction(focusedItem)
           case 'UPLOAD':
             return this.uploadAction(focusedItem)
           case 'OPEN_IN_BROWSER':
-            return this.openInBrowserAction(focusedItem)
+            window.open(focusedItem.location, '_blank');
+            break
           case 'ZOOM_IN':
-            return this.zoomIncrement(1)
+            this.$store.commit('settings/incrementZoom', 1)
+            break
           case 'ZOOM_OUT':
-            return this.zoomIncrement(-1)
+            this.$store.commit('settings/incrementZoom', -1)
+            break
           case 'ZOOM_ORIGINAL':
-            return this.zoomOriginal()
-          case 'ARANGEMENT':
-            return this.arangementAction()
+            this.$store.commit('settings/resetZoom')
+            break
           case 'ARANGE_BY_NAME':
             this.$store.commit('settings/setSortField', 'name')
             break
@@ -181,21 +186,6 @@ export default {
         }
       })
     },
-    arangementAction() {
-      this.$refs.arangementDialog.show()
-    },
-    zoomIncrement(zoomIncrement) {
-      this.$store.commit('settings/incrementZoom', zoomIncrement)
-    },
-    zoomOriginal() {
-      this.$store.commit('settings/resetZoom')
-    },
-    openInBrowserAction(focusedItem) {
-      window.open(focusedItem.location, '_blank');
-    },
-    downloadAction(focusedItem) {
-      window.location.assign(focusedItem.location)
-    },
     openAction(focusedItem) {
       this.$store.commit('explorer/setPath', focusedItem.path)
     },
@@ -206,9 +196,6 @@ export default {
     cutAction(focusedItem) {
       this.$store.commit('clipboard/setContents', [focusedItem.path])
       this.$store.commit('clipboard/setAction', 'CUT')
-    },
-    propertiesAction(focusedItem) {
-      this.$refs.propertiesDialog.show(focusedItem)
     },
     uploadAction(focusedItem) {
       this.$refs.uploadDialog.show({
