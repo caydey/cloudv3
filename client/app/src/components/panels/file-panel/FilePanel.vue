@@ -22,7 +22,6 @@
     <ErrorDialog ref="errorDialog" />
     <PropertiesDialog ref="propertiesDialog" />
     <UploadDialog ref="uploadDialog" />
-    <ArangementDialog ref="arangementDialog" />
   </div>
 </template>
 
@@ -37,7 +36,6 @@ import RenameDialog from '@/components/dialogs/RenameDialog'
 import ErrorDialog from '@/components/dialogs/ErrorDialog'
 import PropertiesDialog from '@/components/dialogs/PropertiesDialog'
 import UploadDialog from '@/components/dialogs/upload-dialog/UploadDialog'
-import ArangementDialog from '@/components/dialogs/ArangementDialog'
 
 import arangeFiles from '@/helpers/arangeFiles.js'
 
@@ -56,8 +54,7 @@ export default {
     RenameDialog,
     ErrorDialog,
     PropertiesDialog,
-    UploadDialog,
-    ArangementDialog
+    UploadDialog
   },
   data() {
     return {
@@ -163,6 +160,24 @@ export default {
             return this.zoomOriginal()
           case 'ARANGEMENT':
             return this.arangementAction()
+          case 'ARANGE_BY_NAME':
+            this.$store.commit('settings/setSortField', 'name')
+            break
+          case 'ARANGE_BY_SIZE':
+            this.$store.commit('settings/setSortField', 'size')
+            break
+          case 'ARANGE_BY_DATE':
+            this.$store.commit('settings/setSortField', 'modified')
+            break
+          case 'ARANGE_ASCENDING':
+            this.$store.commit('settings/setSortAscending', true)
+            break
+          case 'ARANGE_DESCENDING':
+            this.$store.commit('settings/setSortAscending', false)
+            break
+          case 'ARANGE_FOLDERS_FIRST':
+            this.$store.commit('settings/toggleSortFoldersFirst')
+            break
         }
       })
     },

@@ -7,7 +7,7 @@
     />
     <div
       id="menu"
-      class="shadow"
+      class="menu"
       :class="{ invisible: invisibleMenu }"
       @contextmenu.prevent.stop
     >
@@ -41,6 +41,9 @@ export default {
     close() {
       this.isVisible = false
       this.invisibleMenu = true
+    },
+    getMenuSize() {
+      return document.getElementById('menu').getBoundingClientRect()
     },
     _unfocus() {
       if (this.onunfocus)
