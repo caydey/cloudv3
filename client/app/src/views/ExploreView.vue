@@ -33,6 +33,8 @@ import FilePanel from '@/components/panels/file-panel/FilePanel'
 import OpenPanel from '@/components/panels/open-panel/OpenPanel'
 import ErrorPanel from '@/components/panels/ErrorPanel'
 
+import createPageTitle from '@/helpers/createPageTitle'
+
 import { mapGetters } from 'vuex'
 
 export default {
@@ -50,7 +52,7 @@ export default {
     this.routeChange(this.$router.currentRoute._value)
   },
   methods: {
-    routeChange: function (route) {
+    routeChange(route) {
       // when $router changes check if $store value matches
       // if not then the $router change was done through the browser (back/forward)
       // so we need to manualy update the $store values
@@ -66,6 +68,13 @@ export default {
       let encodedPath = encodeURIComponent(newPath)
       encodedPath = encodedPath.replaceAll('%2F', '/')
       this.$router.push('/' + this.$router.currentRoute._value.name + encodedPath)
+
+      // custom page title based on path
+      const pageTitle = createPageTitle(newPath, {
+        showHeader: this.titleShowHeader,
+        fullPath: this.titleFullPath
+      })
+      window.document.title = pageTitle
     },
     $route(to) { // watch for browser back/forward
       this.routeChange(to)
@@ -76,7 +85,9 @@ export default {
       exploredData: 'explorer/data',
       exploredPath: 'explorer/path',
       error: 'explorer/error',
-      loading: 'explorer/loading'
+      loading: 'explorer/loading',
+      titleShowHeader: 'settings/titleShowHeader',
+      titleFullPath: 'settings/titleFullPath',
     })
   }
 }

@@ -37,23 +37,23 @@ export default {
     ToolbarIcon
   },
   methods: {
-    trailClick: function (index) {
+    trailClick(index) {
       if (!this.path) return // path not loaded yet / api failure
       let clickedPath = this.path.split('/').slice(0, index + 1).join('/') || '/'
       this.$store.commit('explorer/setPath', clickedPath)
     },
-    goParent: function () {
+    goParent() {
       let splitted = this.path.split('/')
       let parentPath = splitted.slice(0, splitted.length - 1).join('/') || '/'
       this.$store.commit('explorer/setPath', parentPath)
     },
-    goPrevious: function () {
+    goPrevious() {
       this.$router.back()
     },
-    goNext: function () {
+    goNext() {
       this.$router.forward()
     },
-    handleScroll: function (event) {
+    handleScroll(event) {
       let scrollIncrement = 80
       if (event.deltaY < 0) scrollIncrement *= -1
       clearInterval(animateScrollInterval)
@@ -69,7 +69,7 @@ export default {
         document.getElementById('trail').scrollLeft += step
       }, speed)
     },
-    scrollToEnd: function () {
+    scrollToEnd() {
       document.getElementById('trail').scrollLeft += 1_000_000 // large number
     }
   },

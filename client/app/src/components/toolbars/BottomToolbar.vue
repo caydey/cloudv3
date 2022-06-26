@@ -18,7 +18,7 @@ import bytesToHuman from '@/helpers/bytesToHuman.js'
 export default {
   name: 'BottomToolbar',
   methods: {
-    formatBytes: function (bytes) {
+    formatBytes(bytes) {
       let bytesHuman = `${bytes.toLocaleString()} byte`
       bytesHuman += ((bytes == 1) ? '' : 's')
       let sizeStats = `${bytesHuman}`
@@ -28,7 +28,7 @@ export default {
       }
       return sizeStats
     },
-    millisecondsToHuman: function (milli) {
+    millisecondsToHuman(milli) {
       const steps = [60, 24, 7, 52, 100]
       const units = ['m', 'h', 'd', 'w', 'y']
 
@@ -44,7 +44,7 @@ export default {
       }
       return human
     },
-    getDirectoryStats: function (exploredData) {
+    getDirectoryStats(exploredData) {
       // 2.8 KiB (2,832 bytes)
       let sizeStats = this.formatBytes(exploredData.size)
       // 3 folders, 5 files
@@ -74,7 +74,7 @@ export default {
       let freeSpace = `Free space: ${bytesToHuman(exploredData.free)}`
       return `${fileFolderStats}: ${sizeStats}, ${freeSpace}`
     },
-    getFileStats: function (fileObj) {
+    getFileStats(fileObj) {
       let sizeStats = this.formatBytes(fileObj.size)
 
       let lastModifiedMilli = Date.now() - new Date(fileObj.modified)

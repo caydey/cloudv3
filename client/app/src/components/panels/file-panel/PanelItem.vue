@@ -36,7 +36,7 @@ export default {
     }
   },
   methods: {
-    itemClick: function () {
+    itemClick() {
       this.$store.commit('explorer/setPath', this.item.path)
     }
   },

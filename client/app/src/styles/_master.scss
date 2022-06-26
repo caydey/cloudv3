@@ -72,3 +72,37 @@ button, input {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.menu {
+  position: absolute;
+
+  display: block;
+  background-color: $color-popup;
+
+  padding: 4px 0; // top/bottom
+  border-radius: 4px;
+
+  box-shadow: 0px 0px 6px 4px $color-border;
+  .icon {
+    position: relative;
+    top: 2px; // move icon down 2 pixels
+    margin-right: 8px;
+  }
+  .row {
+    display: block;
+    padding: 2px 6px; // top/bottom left/right
+    margin: 0;
+
+    &:hover {
+      background-color: $color-active;
+    }
+  }
+  .rowBreak {
+    margin: 2px 0; // top/bottom
+    padding: 0;
+    border: 1px solid $color-border;
+  }
+  .disabledIcon path {
+    color: $color-text-disabled;
+  }
+}
