@@ -2,9 +2,13 @@
 // initial state
 const state = {
   zoomLevel: JSON.parse(localStorage.getItem('ZOOM_LEVEL') || '0'),
+
   sortField: localStorage.getItem('SORT_FIELD') || 'name',
   sortAscending: JSON.parse(localStorage.getItem('SORT_ASCENDING') || 'true'),
-  sortFoldersFirst: JSON.parse(localStorage.getItem('SORT_FOLDERS_FIRST') || 'true')
+  sortFoldersFirst: JSON.parse(localStorage.getItem('SORT_FOLDERS_FIRST') || 'true'),
+
+  titleShowHeader: JSON.parse(localStorage.getItem('TITLE_SHOW_HEADER') || 'true'),
+  titleFullPath: JSON.parse(localStorage.getItem('TITLE_FULL_PATH') || 'false')
 }
 
 
@@ -21,6 +25,12 @@ const getters = {
   },
   sortFoldersFirst(state) {
     return state.sortFoldersFirst
+  },
+  titleShowHeader(state) {
+    return state.titleShowHeader
+  },
+  titleFullPath(state) {
+    return state.titleFullPath
   }
 }
 
@@ -40,6 +50,7 @@ const mutations = {
     localStorage.setItem('ZOOM_LEVEL', 0)
     state.zoomLevel = 0
   },
+
   setSortField(state, sortField) {
     localStorage.setItem('SORT_FIELD', sortField)
     state.sortField = sortField
@@ -52,6 +63,15 @@ const mutations = {
     const sortFoldersFirst = !state.sortFoldersFirst
     localStorage.setItem('SORT_FOLDERS_FIRST', sortFoldersFirst)
     state.sortFoldersFirst = sortFoldersFirst
+  },
+
+  setTitleShowHeader(state, titleShowHeader) {
+    localStorage.setItem('TITLE_SHOW_HEADER', titleShowHeader)
+    state.titleShowHeader = titleShowHeader
+  },
+  setTitleFullPath(state, titleFullPath) {
+    localStorage.setItem('TITLE_FULL_PATH', titleFullPath)
+    state.titleFullPath = titleFullPath
   }
 }
 
