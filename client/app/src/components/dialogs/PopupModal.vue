@@ -1,10 +1,6 @@
 <template>
   <div v-if="isVisible">
-    <div
-      class="mask"
-      @click.prevent.stop="close()"
-      @contextmenu.prevent.stop="close()"
-    />
+    <PageMask @close="close" :zIndex="10" />
     <div class="fixedCenter" @contextmenu.prevent.stop id="popup">
       <slot></slot>
     </div>
@@ -13,9 +9,13 @@
 
 <script>
 
-// create clipboard store
+import PageMask from '@/components/PageMask'
+
 export default {
   name: "PopupModal",
+  components: {
+    PageMask
+  },
   data() {
     return {
       isVisible: false,
