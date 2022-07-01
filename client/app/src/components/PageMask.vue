@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     _close() {
-      console.log("close emit");
       this.$emit('close')
     }
   }
