@@ -1,9 +1,10 @@
 <template>
   <div v-if="isVisible">
-    <PageMask @close="close" :zIndex="10" />
-    <div class="fixedCenter" @contextmenu.prevent.stop id="popup">
-      <slot></slot>
-    </div>
+    <PageMask @close="close" :zIndex="10">
+      <div class="fixedCenter" @contextmenu.prevent.stop id="popup">
+        <slot></slot>
+      </div>
+    </PageMask>
   </div>
 </template>
 
