@@ -23,7 +23,7 @@ router.post(
   (req, res, next) => { // ?path
     const givenPath = req.query.path
     // path is a directory
-    if (!givenPath) {
+    if (typeof givenPath !== 'string') {
       return res.status(400).send({
         success: false,
         message: 'path paramater required'
