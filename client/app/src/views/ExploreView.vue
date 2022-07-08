@@ -74,6 +74,9 @@ export default {
         fullPath: this.titleFullPath
       })
       window.document.title = pageTitle
+
+      // clear selected items
+      this.$store.commit('clipboard/clearSelection')
     },
     $route(to) { // watch for browser back/forward
       this.routeChange(to)
