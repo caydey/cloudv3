@@ -6,9 +6,11 @@ module.exports = (req, res, next) => {
     return next()
   }
 
-  // if we allow non local addresses to read/write
-  if (!NON_LOCAL_READ_ONLY) {
-    return next()
+  // skip if ACCESS_TOKEN is set and correct
+  if (ACCESS_TOKEN) { // VERY IMPORTANT AS ACCESS_TOKEN DEFAULT VALUE IS undefined
+    if (ACCESS_TOKEN === req.headers['Access-Token']) {
+      return next()
+    }
   }
 
   let allowedAccess = true
