@@ -20,7 +20,15 @@ router.post('/', (req, res) => { // ?path?recursive
     return res.status(200).send({
       success: false,
       message: 'path does not exist',
-      data: { path: givenPath }
+      data: { path: cloudPath.virtual }
+    })
+  }
+
+  // dont allow deletion of the root directory
+  if (cloudPath.virtual === '/') {
+    return res.status(200).send({
+      success: false,
+      message: 'refusing to delete root directory'
     })
   }
 
@@ -29,7 +37,7 @@ router.post('/', (req, res) => { // ?path?recursive
       return res.status(400).send({
         success: false,
         message: 'refusing to delete directory without having a recursive=true paramater',
-        data: { path: givenPath }
+        data: { path: cloudPath.virtual }
       })
     }
   }
