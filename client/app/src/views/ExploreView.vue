@@ -35,6 +35,8 @@ import ErrorPanel from '@/components/panels/ErrorPanel'
 
 import createPageTitle from '@/helpers/createPageTitle'
 
+import createPathUrl from '@/helpers/createPathUrl'
+
 import { mapGetters } from 'vuex'
 
 export default {
