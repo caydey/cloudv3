@@ -3,7 +3,6 @@
     id="panelitem"
     @click="itemClick"
     :class="{
-      focused: focused,
       zoomNeg2: zoomLevel === -2,
       zoomNeg1: zoomLevel === -1,
       zoom0: zoomLevel === 0,
@@ -66,26 +65,23 @@ export default {
   text-overflow: ellipsis;
   cursor: pointer;
   text-align: center;
+  p {
+    position: relative; // allow z-index
+    // inherit not $color-hover for when color gets highlighted in FilePanel
+    background-color: inherit;
+  }
   &:hover {
-    position: relative;
     background-color: $color-hover;
+    position: relative;
     overflow: visible;
     p {
-      background-color: $color-hover;
       border-radius: 10px;
       z-index: 1;
     }
   }
-  p {
-    position: relative; // allow z-index
-  }
 }
-#panelitem:active,
-.focused {
+#panelitem:active {
   background-color: $color-active;
-  p {
-    background-color: $color-active;
-  }
 }
 
 .zoomNeg2 {
