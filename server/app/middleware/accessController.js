@@ -1,6 +1,6 @@
-const { NON_LOCAL_READ_ONLY } = require('../config.js')
+const { LOCAL_READ_ONLY, NON_LOCAL_READ_ONLY, ACCESS_TOKEN } = require('../config.js')
 
-module.exports = (method) => function (req, res, next) {
+module.exports = (req, res, next) => {
   // skip if development
   if (process.env.NODE_ENV === 'development') {
     return next()
@@ -11,26 +11,30 @@ module.exports = (method) => function (req, res, next) {
     return next()
   }
 
-  // allow read only methods
-  if (method === 'EXPLORE') {
-    return next()
+  let allowedAccess = true
+
+  // LOCAL_READ_ONLY check
+  if (LOCAL_READ_ONLY) {
+    allowedAccess = false
   }
 
-  // check if local
+  // NON_LOCAL_READ_ONLY check
   const clientIp = req.headers['x-forwarded-for']
+  if (NON_LOCAL_READ_ONLY && !isIpPrivate(clientIp)) {
+    allowedAccess = false
+  }
 
-  // not local
-  if (!clientIp || !isIpPublic(clientIp)) {
-    return res.status(403).send({
+  if (allowedAccess) {
+    return next()
+  } else {
+    res.status(403).send({
       success: false,
-      message: 'permission denied! read only access allowed.'
+      message: 'Permission Denied! read only access allowed.'
     })
   }
-
-  next()
 }
 
-function isIpPublic (ip) {
+function isIpPrivate (ip) {
   // https://www.npmjs.com/package/ip
   return /^10\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/i.test(ip) ||
     /^192\.168\.([0-9]{1,3})\.([0-9]{1,3})$/i.test(ip) ||

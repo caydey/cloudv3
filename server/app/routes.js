@@ -8,19 +8,19 @@ const accessController = require('./middleware/accessController.js')
 const routes = (route) => {
   route.use(
     '/api/mkdir',
-    accessController('MKDIR'),
+    accessController,
     apiMkdir.router
   )
 
   route.use(
     '/api/delete',
-    accessController('DELETE'),
+    accessController,
     apiDelete.router
   )
 
   route.use(
     '/api/upload',
-    accessController('UPLOAD'),
+    accessController,
     apiUpload.router
   )
 
@@ -30,7 +30,7 @@ const routes = (route) => {
         req.action = 'MOVE'
         next()
       },
-      accessController('MOVE')
+      accessController
     ],
     apiCopyMove.router
   )
@@ -41,7 +41,7 @@ const routes = (route) => {
         req.action = 'COPY'
         next()
       },
-      accessController('COPY')
+      accessController
     ],
     apiCopyMove.router
   )
