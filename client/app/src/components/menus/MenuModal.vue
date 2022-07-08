@@ -1,10 +1,5 @@
 <template>
-  <div v-if="isVisible">
-    <div
-      class="mask"
-      @click.prevent.stop="_unfocus()"
-      @contextmenu.prevent.stop="_unfocus()"
-    />
+  <PageMask v-if="isVisible" @close="_unfocus" :zIndex="10">
     <div
       id="menu"
       class="menu"
@@ -13,12 +8,16 @@
     >
       <slot></slot>
     </div>
-  </div>
+  </PageMask>
 </template>
 
 <script>
+import PageMask from '@/components/PageMask'
 export default {
   name: "MenuModal",
+  components: {
+    PageMask
+  },
   data() {
     return {
       isVisible: false,
@@ -77,8 +76,5 @@ export default {
 <style lang="scss" scoped>
 .invisible {
   visibility: hidden;
-}
-#menu {
-  z-index: 11;
 }
 </style>

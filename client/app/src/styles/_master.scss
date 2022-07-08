@@ -97,12 +97,21 @@ button, input {
       background-color: $color-active;
     }
   }
+  .rowDisabled {
+    .icon path {
+      color: $color-text-disabled
+    }
+    span {
+      color: $color-text-disabled;
+    }
+    // remove hover color
+    &:hover {
+      background-color: $color-popup;
+    }
+  }
   .rowBreak {
     margin: 2px 0; // top/bottom
     padding: 0;
     border: 1px solid $color-border;
-  }
-  .disabledIcon path {
-    color: $color-text-disabled;
   }
 }

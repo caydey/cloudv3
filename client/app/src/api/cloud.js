@@ -6,17 +6,18 @@ export default {
     const json = { 'path': path }
     handleApiRequest('explore', json, callback)
   },
-  copy: (path, dest, callback) => {
-    const json = { 'path': path, 'dest': dest }
-    handleApiRequest('copy', json, callback)
+  copy: (paths, dest, callback) => {
+    const jsons = paths.map((path) => { return { 'path': path, 'dest': dest } })
+    handleMultiRequest('copy', jsons, callback)
   },
-  move: (path, dest, callback) => {
-    const json = { 'path': path, 'dest': dest }
-    handleApiRequest('move', json, callback)
+  move: (paths, dest, callback) => {
+    const jsons = paths.map((path) => { return { 'path': path, 'dest': dest } })
+    console.log(jsons);
+    handleMultiRequest('move', jsons, callback)
   },
-  delete: (path, callback) => {
-    const json = { 'path': path, 'recursive': true }
-    handleApiRequest('delete', json, callback)
+  delete: (paths, callback) => {
+    const jsons = paths.map((path) => { return { 'path': path, 'recursive': true } })
+    handleMultiRequest('delete', jsons, callback)
   },
   mkdir: (path, callback) => {
     const json = { 'path': path }
@@ -51,6 +52,22 @@ export default {
   }
 }
 
+function handleMultiRequest(apiFunction, jsonRequests, callback) {
+  const iterfunc = ((index) => {
+    if (index >= jsonRequests.length) { // completed
+      return callback(undefined)
+    }
+    handleApiRequest(apiFunction, jsonRequests[index], (err) => {
+      if (err) {
+        console.log(err);
+        return callback(err)
+      }
+      iterfunc(index + 1)
+    })
+  })
+  iterfunc(0)
+}
+
 function handleApiRequest(apiFunction, json, callback) {
   axios.post(`${API_HOST}/${apiFunction}`, json).then((res) => {
     // api wrong param error
@@ -58,6 +75,7 @@ function handleApiRequest(apiFunction, json, callback) {
       return callback(res.data.message || 'api error')
     callback(undefined, res.data.data)
   }).catch((err) => {
+    console.log(err);
     callback(err.message) // axios error message
   })
 }

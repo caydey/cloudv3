@@ -25,7 +25,7 @@ export default {
     'video/webm'
   ],
   methods: {
-    updateResumeLocation: function (fileHash) {
+    updateResumeLocation: function(fileHash) {
       // get localstorage data
       let localStorageItem = this.getLocalStorageItem()
 
@@ -43,7 +43,7 @@ export default {
       // update localstorage with data
       this.setLocalStorageItem(localStorageItem)
     },
-    restoreResumeLocation: function (fileHash) {
+    restoreResumeLocation: function(fileHash) {
       // jump to saved playback location
       let localStorageItem = this.getLocalStorageItem()
       let resumeLocation = localStorageItem[fileHash]
@@ -54,13 +54,13 @@ export default {
         document.getElementById('video').currentTime = resumeLocation
       }
     },
-    getLocalStorageItem: function () {
+    getLocalStorageItem: function() {
       // get localstorage item or return empty json string
       let localStorageItem = localStorage.getItem(LOCALSTORAGE_NAME) || '{}'
       localStorageItem = JSON.parse(localStorageItem)
       return localStorageItem
     },
-    setLocalStorageItem: function (json) {
+    setLocalStorageItem: function(json) {
       let item = JSON.stringify(json)
       localStorage.setItem(LOCALSTORAGE_NAME, item)
     }

@@ -1,12 +1,6 @@
 <template>
-  <div
-    v-if="isVisible"
-    class="mask"
-    id="mask"
-    @click.prevent.stop="_unfocus()"
-    @contextmenu.prevent.stop="_unfocus()"
-  >
-    <div :class="{ invisible: invisibleMenu }" id="arangementMenu" class="menu">
+  <PageMask v-if="isVisible" class="mask" :zIndex="20" @close="_unfocus()">
+    <div :class="{ invisible: invisibleMenu }" class="menu" id="arangementMenu">
       <!-- BY_NAME -->
       <div class="row" @click="arangementAction('ARANGE_BY_NAME')">
         <ActionIcon
@@ -64,10 +58,11 @@
         <span>Folders First</span>
       </div>
     </div>
-  </div>
+  </PageMask>
 </template>
 
 <script>
+import PageMask from '@/components/PageMask'
 import { mapGetters } from 'vuex'
 
 import { defineAsyncComponent } from 'vue'
@@ -76,7 +71,8 @@ const ActionIcon = defineAsyncComponent(() => import(/* webpackChunkName: 'actio
 export default {
   name: "ArangementMenu",
   components: {
-    ActionIcon
+    ActionIcon,
+    PageMask
   },
   data() {
     return {
@@ -145,11 +141,5 @@ export default {
 <style lang="scss" scoped>
 .invisible {
   visibility: hidden;
-}
-#mask {
-  z-index: 20;
-}
-#arangementMenu {
-  z-index: 21;
 }
 </style>

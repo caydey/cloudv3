@@ -56,7 +56,7 @@
       <template v-if="menuActions.includes('PASTE')">
         <div
           class="row"
-          :class="{ disabled: !canPaste }"
+          :class="{ rowDisabled: !canPaste }"
           @click="canPaste && menuAction('PASTE')"
         >
           <ActionIcon class="icon" icon="paste" />
@@ -69,7 +69,7 @@
       <template v-if="menuActions.includes('PASTE_INTO')">
         <div
           class="row"
-          :class="{ disabledIcon: !canPaste }"
+          :class="{ rowDisabled: !canPaste }"
           @click="canPaste && menuAction('PASTE')"
         >
           <ActionIcon class="icon" icon="paste" />

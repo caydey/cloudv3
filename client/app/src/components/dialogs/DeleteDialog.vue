@@ -3,7 +3,15 @@
     <div id="dialog" class="shadow">
       <div id="body">
         <p id="title">
-          Are you sure that you want to permanently delete "{{ filename }}"?
+          <template v-if="selection.length === 1">
+            Are you sure that you want to permanently delete "{{
+              selection[0].name
+            }}"?
+          </template>
+          <template v-else>
+            Are you sure that you want to permanently delete the
+            {{ selection.length }} selected files?
+          </template>
         </p>
         <p id="small">If you delete a file, it is permanently lost.</p>
       </div>
@@ -26,12 +34,13 @@ export default {
   data() {
     return {
       resolvePromise: undefined,
-      filename: ""
+      selection: []
     }
   },
   methods: {
-    show(filename) {
-      this.filename = filename
+    show(selection) {
+      this.selection = selection
+
       // show popup
       this.$refs.popup.open()
 
