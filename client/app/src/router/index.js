@@ -1,15 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ExploreView from '../views/ExploreView.vue'
 
+import { EXPLORE_ROUTE_NAME } from '../config.js'
+
 const routes = [
   {
     path: '/explore/:pathMatch(.*)*',
-    name: 'explore',
+    name: EXPLORE_ROUTE_NAME,
     component: ExploreView
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/explore'
+    redirect: '/' + EXPLORE_ROUTE_NAME
   }
 ]
 

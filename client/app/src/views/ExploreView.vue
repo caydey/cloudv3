@@ -64,10 +64,7 @@ export default {
   },
   watch: {
     exploredPath(newPath) { // when store path changes, change router url
-      // encode everything except '/'
-      let encodedPath = encodeURIComponent(newPath)
-      encodedPath = encodedPath.replaceAll('%2F', '/')
-      this.$router.push('/' + this.$router.currentRoute._value.name + encodedPath)
+      this.$router.push(createPathUrl(newPath))
 
       // custom page title based on path
       const pageTitle = createPageTitle(newPath, {
