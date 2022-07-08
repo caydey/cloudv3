@@ -12,7 +12,6 @@ export default {
   },
   move: (paths, dest, callback) => {
     const jsons = paths.map((path) => { return { 'path': path, 'dest': dest } })
-    console.log(jsons);
     handleMultiRequest('move', jsons, callback)
   },
   delete: (paths, callback) => {
