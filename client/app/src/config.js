@@ -6,6 +6,8 @@ let SOCKET_HOST = `ws://${window.location.host}/socket`
 if (window.location.protocol === "https:")
   SOCKET_HOST = `wss://${window.location.host}/socket`
 
+// 192.168.0.2/${EXPLORE_ROUTE_NAME}/my/path
+const EXPLORE_ROUTE_NAME = 'explore'
 
 // development
 if (process.env.NODE_ENV === 'development') {
@@ -15,5 +17,6 @@ if (process.env.NODE_ENV === 'development') {
 
 module.exports = {
   API_HOST,
-  SOCKET_HOST
+  SOCKET_HOST,
+  EXPLORE_ROUTE_NAME
 }

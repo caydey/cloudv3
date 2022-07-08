@@ -9,7 +9,7 @@ const router = express.Router()
 router.post('/', (req, res) => { // ?path?recursive
   const givenPath = req.body.path
   const recursiveFlag = req.body.recursive
-  if (!givenPath) {
+  if (typeof givenPath !== 'string') {
     return res.status(400).send({
       success: false,
       message: 'path not defined'

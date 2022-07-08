@@ -9,7 +9,7 @@ const router = express.Router()
 
 router.post('/', (req, res) => { // ?path
   const givenPath = req.body.path
-  if (!givenPath) {
+  if (typeof givenPath !== 'string') {
     return res.status(400).send({
       success: false,
       message: 'path not defined'

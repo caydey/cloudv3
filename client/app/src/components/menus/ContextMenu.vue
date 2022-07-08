@@ -56,7 +56,7 @@
       <template v-if="menuActions.includes('PASTE')">
         <div
           class="row"
-          :class="{ disabled: !canPaste }"
+          :class="{ rowDisabled: !canPaste }"
           @click="canPaste && menuAction('PASTE')"
         >
           <ActionIcon class="icon" icon="paste" />
@@ -69,7 +69,7 @@
       <template v-if="menuActions.includes('PASTE_INTO')">
         <div
           class="row"
-          :class="{ disabledIcon: !canPaste }"
+          :class="{ rowDisabled: !canPaste }"
           @click="canPaste && menuAction('PASTE')"
         >
           <ActionIcon class="icon" icon="paste" />
@@ -203,10 +203,10 @@ export default {
         // open arangement menu
         const menuPosition = this.$refs.menu.getMenuSize()
         this.$refs.arangementMenu.show(menuPosition).then((arangementAction) => {
-          // if option chosen on arangement menu
-          if (arangementAction) {
-            this.menuAction(arangementAction)
-          }
+          // pass ArangementMenu action to ContextMenu action handler, this
+          // includes the close (undefined) action which will propagate and
+          // close ContextMenu
+          this.menuAction(arangementAction)
         })
       } else {
         this.resolvePromise(action)
