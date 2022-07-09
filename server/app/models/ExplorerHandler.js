@@ -64,6 +64,7 @@ class FileWatcher {
             setTimeout(() => {
               if (cocked) {
                 this.#triggerUpdate()
+                cocked = false
               }
               timeout = false
             }, TRIGGER_TIMEOUT)
