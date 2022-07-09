@@ -25,7 +25,8 @@ module.exports = class {
   }
 }
 
-const TRIGGER_TIMEOUT = 50
+const TRIGGER_DELAY = 50 // wait 50ms before triggering update
+const TRIGGER_TIMEOUT = 2_000 // only trigger updates a minimum 2 second between the last
 class FileWatcher {
   #watchers = new Map()
   #controller = new AbortController()
@@ -38,8 +39,6 @@ class FileWatcher {
   }
 
   #startWatching () {
-    // wait TRIGGER_TIMEOUT to send response, because changing a dir will result
-    // in fs.watch being called up to 3 times in the span of 10ms
     validateExplorePath(this.#cloudPath, (errMessage) => {
       if (errMessage) {
         return this.#broadcastResponse({
@@ -49,12 +48,27 @@ class FileWatcher {
       }
 
       this.#triggerUpdate()
+      let timeout = false // updates are timed out
+      let cocked = false // update happened during timeout
       let timer
       fs.watch(this.#cloudPath.system, this.#controller.signal, () => {
+        // wait TRIGGER_DELAY to send response, because changing a dir will result
+        // in fs.watch being called up to 3 times in the span of 10ms
         clearTimeout(timer)
         timer = setTimeout(() => {
-          this.#triggerUpdate()
-        }, TRIGGER_TIMEOUT)
+          if (timeout) {
+            cocked = true
+          } else {
+            this.#triggerUpdate()
+            timeout = true
+            setTimeout(() => {
+              if (cocked) {
+                this.#triggerUpdate()
+              }
+              timeout = false
+            }, TRIGGER_TIMEOUT)
+          }
+        }, TRIGGER_DELAY)
       })
     })
   }
