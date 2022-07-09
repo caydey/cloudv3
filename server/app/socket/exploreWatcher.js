@@ -22,6 +22,8 @@ module.exports = (wss) => {
   })
 }
 
+// pass a bool to add explorer which says if they have the access token set
+// and then hide the dotfiles if its false
 function registerWatcher (ws, cloudPath) {
   ws.aborter = explorerHandler.addExplorer(cloudPath, (response) => {
     ws.send(JSON.stringify(response))
