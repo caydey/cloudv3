@@ -1,4 +1,5 @@
-const { LOCAL_READ_ONLY, NON_LOCAL_READ_ONLY, ACCESS_TOKEN } = require('../config.js')
+const { LOCAL_READ_ONLY, NON_LOCAL_READ_ONLY } = require('../config.js')
+const isAdmin = require('./isAdmin.js')
 
 module.exports = (req, res, next) => {
   // skip if development
@@ -6,11 +7,9 @@ module.exports = (req, res, next) => {
     return next()
   }
 
-  // skip if ACCESS_TOKEN is set and correct
-  if (ACCESS_TOKEN) { // VERY IMPORTANT AS ACCESS_TOKEN DEFAULT VALUE IS undefined
-    if (ACCESS_TOKEN === req.headers['Access-Token']) {
-      return next()
-    }
+  // allow if admin
+  if (isAdmin(req.headers.cookie)) {
+    return next()
   }
 
   let allowedAccess = true
