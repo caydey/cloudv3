@@ -32,6 +32,7 @@
     <ErrorDialog ref="errorDialog" />
     <PropertiesDialog ref="propertiesDialog" />
     <UploadDialog ref="uploadDialog" />
+    <SettingsDialog ref="settingsDialog" />
   </div>
 </template>
 
@@ -46,6 +47,7 @@ import RenameDialog from '@/components/dialogs/RenameDialog'
 import ErrorDialog from '@/components/dialogs/ErrorDialog'
 import PropertiesDialog from '@/components/dialogs/PropertiesDialog'
 import UploadDialog from '@/components/dialogs/upload-dialog/UploadDialog'
+import SettingsDialog from '@/components/dialogs/SettingsDialog'
 
 import arangeFiles from '@/helpers/arangeFiles.js'
 import createPathUrl from '@/helpers/createPathUrl.js'
@@ -68,6 +70,7 @@ export default {
     ErrorDialog,
     PropertiesDialog,
     UploadDialog,
+    SettingsDialog
   },
   data() {
     return {
@@ -239,7 +242,7 @@ export default {
           this.$store.commit('clipboard/setSelection', [item])
         }
       } else { // panel
-        contextMenuActions = ['NEW_FOLDER', 'UPLOAD', 'PASTE', 'ARANGEMENT', 'ZOOM_IN', 'ZOOM_OUT', 'ZOOM_ORIGINAL', 'PROPERTIES']
+        contextMenuActions = ['NEW_FOLDER', 'UPLOAD', 'PASTE', 'ARANGEMENT', 'ZOOM_IN', 'ZOOM_OUT', 'ZOOM_ORIGINAL', 'PROPERTIES', 'SETTINGS']
         this.$store.commit('clipboard/setSelection', [this.exploredData])
       }
       // update highlights since 'clipboard/selection' will be modified
@@ -293,6 +296,8 @@ export default {
           this.$store.commit('settings/setSortAscending', false)
         } else if (action === 'ARANGE_FOLDERS_FIRST') { // ARANGE_FOLDERS_FIRST
           this.$store.commit('settings/toggleSortFoldersFirst')
+        } else if (action === 'SETTINGS') { // SETTINGS
+          this.$refs.settingsDialog.show()
         }
 
         // after contextmenu is closed clear selection

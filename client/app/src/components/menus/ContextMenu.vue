@@ -149,6 +149,15 @@
           <span>Properties...</span>
         </div>
       </template>
+
+      <template v-if="menuActions.includes('SETTINGS')">
+        <!-- ROW_BREAK -->
+        <div class="rowBreak" />
+        <div class="row" @click="menuAction('SETTINGS')">
+          <ActionIcon class="icon" icon="settings" />
+          <span>Settings...</span>
+        </div>
+      </template>
     </MenuModal>
     <ArangementMenu ref="arangementMenu" />
   </div>

@@ -1,3 +1,4 @@
+const Cookies = require('js-cookie')
 
 // initial state
 const state = {
@@ -8,7 +9,9 @@ const state = {
   sortFoldersFirst: JSON.parse(localStorage.getItem('SORT_FOLDERS_FIRST') || 'true'),
 
   titleShowHeader: JSON.parse(localStorage.getItem('TITLE_SHOW_HEADER') || 'true'),
-  titleFullPath: JSON.parse(localStorage.getItem('TITLE_FULL_PATH') || 'false')
+  titleFullPath: JSON.parse(localStorage.getItem('TITLE_FULL_PATH') || 'false'),
+
+  accessToken: Cookies.get('Access_Token')
 }
 
 
@@ -31,6 +34,9 @@ const getters = {
   },
   titleFullPath(state) {
     return state.titleFullPath
+  },
+  accessToken(state) {
+    return state.accessToken
   }
 }
 
@@ -72,6 +78,13 @@ const mutations = {
   setTitleFullPath(state, titleFullPath) {
     localStorage.setItem('TITLE_FULL_PATH', titleFullPath)
     state.titleFullPath = titleFullPath
+  },
+  setAccessToken(state, accessToken) {
+    Cookies.set('Access_Token', accessToken, {
+      expires: 5_000, // expires in 5000 days """permanent"""
+      sameSite: "strict"
+    })
+    state.accessToken = accessToken
   }
 }
 
