@@ -35,6 +35,13 @@ button, input {
   }
 }
 
+.inputBox {
+  user-select: text;
+  background-color: $color-button;
+  border-radius: 4px;
+  border: 1px solid $color-border;
+}
+
 .absoluteCenter,
 .fixedCenter {
   left: 50%;

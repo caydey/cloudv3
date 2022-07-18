@@ -12,6 +12,7 @@
             </p>
             <input
               ref="fileInput"
+              class="inputBox"
               type="text"
               v-on:keyup.enter="rename"
               v-model="filename"
@@ -104,13 +105,8 @@ export default {
   margin-bottom: 6px;
 }
 input {
-  user-select: text;
   width: 220px;
-  background-color: $color-button;
   padding: 4px 10px;
-  border-radius: 4px;
-  border: 1px solid $color-border;
-  // width: 100%;
 }
 #buttons {
   position: absolute;

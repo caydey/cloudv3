@@ -10,7 +10,6 @@
       <div
         @click.stop.prevent
         @contextmenu.stop.prevent
-        @mousedown.stop.prevent
         :style="{ 'z-index': zIndex + 1 }"
       >
         <slot />
