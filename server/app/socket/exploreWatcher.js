@@ -27,13 +27,8 @@ module.exports = (wss) => {
 }
 
 function registerWatcher (ws, cloudPath) {
-  ws.aborter = explorerHandler.addExplorer(cloudPath, (response) => {
-    // hide dot files if connection is not admin
-    if (!ws.isAdmin) {
-      if (response.success && response.data.children) {
-        response.data.children = response.data.children.filter(child => !child.name.startsWith('.'))
-      }
-    }
+  const hideDotFiles = !ws.isAdmin
+  ws.aborter = explorerHandler.addExplorer(cloudPath, hideDotFiles, (response) => {
     ws.send(JSON.stringify(response))
   })
 }

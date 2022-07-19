@@ -10,7 +10,7 @@ module.exports = class {
     this.#fileWatchers = new Map()
   }
 
-  addExplorer (cloudPath, callback) {
+  addExplorer (cloudPath, hideDotFiles, callback) {
     let fileWatcher = this.#fileWatchers[cloudPath.system]
     // create new filewatcher for directory if we dont already have one
     if (!fileWatcher) {
@@ -18,7 +18,7 @@ module.exports = class {
       this.#fileWatchers[cloudPath.system] = fileWatcher
     }
 
-    const aborter = fileWatcher.addWatcher((data) => {
+    const aborter = fileWatcher.addWatcher(hideDotFiles, (data) => {
       callback(data)
     })
     return aborter
@@ -31,6 +31,7 @@ class FileWatcher {
   #watchers = new Map()
   #controller = new AbortController()
   #lastResponse = null
+  #hiddenLastResponse = null
   #id = 0
   #cloudPath
   #haltTriggers = false
@@ -95,13 +96,22 @@ class FileWatcher {
 
   #broadcastResponse (response) {
     this.#lastResponse = response
-    this.#watchers.forEach((watcher) => watcher(response))
+
+    const clonedData = Object.assign({}, response.data)
+    const hideDotFilesResponse = { success: response.success, data: clonedData }
+    hideDotFilesResponse.data.children = hideDotFilesResponse.data.children.filter(child => !child.name.startsWith('.'))
+
+    this.#hiddenLastResponse = hideDotFilesResponse
+
+    this.#watchers.forEach(({ watcher, hideDotFiles }) => {
+      watcher(hideDotFiles ? hideDotFilesResponse : response)
+    })
   }
 
-  addWatcher (watcher) {
+  addWatcher (hideDotFiles, watcher) {
     const watcherId = this.#id
     this.#id++
-    this.#watchers.set(watcherId, watcher)
+    this.#watchers.set(watcherId, { watcher, hideDotFiles })
 
     // first watcher, begin fswatch and trigger update
     if (this.#watchers.size === 1) {
@@ -109,12 +119,12 @@ class FileWatcher {
     } else {
       // send lastest response to newly added watcher
       if (this.#lastResponse) {
-        watcher(this.#lastResponse)
+        watcher(hideDotFiles ? this.#hiddenLastResponse : this.#lastResponse)
       }
     }
 
     const aborter = () => {
-      delete this.#watchers.delete(watcherId)
+      this.#watchers.delete(watcherId)
       if (this.#watchers.size === 0) {
         this.#controller.abort()
       }
