@@ -25,21 +25,22 @@ module.exports = class {
   }
 }
 
-const TRIGGER_TIMEOUT = 50
+const TRIGGER_DELAY = 50 // wait 50ms before triggering update
+const TRIGGER_TIMEOUT = 2_000 // only trigger updates a minimum 2 second between the last
 class FileWatcher {
   #watchers = new Map()
   #controller = new AbortController()
   #lastResponse = null
   #id = 0
   #cloudPath
+  #haltTriggers = false
+  #lastTrigger = 0
 
   constructor (cloudPath) {
     this.#cloudPath = cloudPath
   }
 
   #startWatching () {
-    // wait TRIGGER_TIMEOUT to send response, because changing a dir will result
-    // in fs.watch being called up to 3 times in the span of 10ms
     validateExplorePath(this.#cloudPath, (errMessage) => {
       if (errMessage) {
         return this.#broadcastResponse({
@@ -49,17 +50,40 @@ class FileWatcher {
       }
 
       this.#triggerUpdate()
+
       let timer
       fs.watch(this.#cloudPath.system, this.#controller.signal, () => {
+        // wait TRIGGER_DELAY to send response, because changing a dir will result
+        // in fs.watch being called up to 3 times in the span of 10ms
         clearTimeout(timer)
         timer = setTimeout(() => {
           this.#triggerUpdate()
-        }, TRIGGER_TIMEOUT)
+        }, TRIGGER_DELAY)
       })
     })
   }
 
   #triggerUpdate () {
+    // triggering halted untill TRIGGER_TIMEOUT finished
+    if (this.#haltTriggers) {
+      return
+    }
+
+    // check if it has been TRIGGER_TIMEOUT since last trigger
+    const now = Date.now()
+    if (now - this.#lastTrigger < TRIGGER_TIMEOUT) {
+      // halt all future triggers untill TRIGGER_TIMEOUT has finished
+      // + also send a triggerUpdate so there isnt a dangling trigger
+      this.#haltTriggers = true // halt triggerUpdate
+      setTimeout(() => {
+        this.#haltTriggers = false // unhalt triggerUpdate
+        this.#triggerUpdate() // re-trigger update
+      }, TRIGGER_TIMEOUT - (now - this.#lastTrigger))
+      return
+    }
+
+    this.#lastTrigger = now
+
     exploreApi(this.#cloudPath, (response) => {
       // exploreApi returned error, abort all future updates
       if (!response.success) {
