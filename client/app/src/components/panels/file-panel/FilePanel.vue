@@ -211,7 +211,7 @@ export default {
         else // canceled
           return
 
-        apiFunction(sourcePath, destPath, (err) => {
+        apiFunction([sourcePath], destPath, (err) => {
           let copyMove = (action === 'COPY') ? 'copy' : 'move'
           if (err) // show error dialog
             this.$refs.errorDialog.show({
@@ -392,7 +392,7 @@ export default {
 
           const oldPath = selection.path
           const newPath = this.exploredData.path + '/' + newName
-          cloudApi.move(oldPath, newPath, (err) => { // api call
+          cloudApi.move([oldPath], newPath, (err) => { // api call
             if (err) // show error dialog if errer
               this.$refs.errorDialog.show({
                 title: `Failed to Rename file/folder`,
