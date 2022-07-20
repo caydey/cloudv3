@@ -98,7 +98,7 @@ class FileWatcher {
     // create response clone with the dot files hidden
     const clonedData = Object.assign({}, response.data)
     const hidenDotFilesResponse = { success: response.success, data: clonedData }
-    if (hidenDotFilesResponse.success) {
+    if (hidenDotFilesResponse.success && hidenDotFilesResponse.data.children) {
       hidenDotFilesResponse.data.children = []
       hidenDotFilesResponse.data.size = 0 // hide size that the dot files take up
       response.data.children.forEach((child) => {
