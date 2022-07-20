@@ -102,7 +102,7 @@ class FileWatcher {
       hidenDotFilesResponse.data.children = []
       hidenDotFilesResponse.data.size = 0 // hide size that the dot files take up
       response.data.children.forEach((child) => {
-        if (!child.name.startsWith('.')) { // not dot file
+        if (!child.name.startsWith('_')) { // not dot file
           hidenDotFilesResponse.data.children.push(child)
           hidenDotFilesResponse.data.size += child.size
         }
