@@ -99,7 +99,9 @@ class FileWatcher {
 
     const clonedData = Object.assign({}, response.data)
     const hideDotFilesResponse = { success: response.success, data: clonedData }
-    hideDotFilesResponse.data.children = hideDotFilesResponse.data.children.filter(child => !child.name.startsWith('.'))
+    if (hideDotFilesResponse.success) {
+      hideDotFilesResponse.data.children = hideDotFilesResponse.data.children.filter(child => !child.name.startsWith('.'))
+    }
 
     this.#hiddenLastResponse = hideDotFilesResponse
 
