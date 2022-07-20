@@ -95,18 +95,26 @@ class FileWatcher {
   }
 
   #broadcastResponse (response) {
+    // create response clone with the dot files hidden
+    const clonedData = Object.assign({}, response.data)
+    const hidenDotFilesResponse = { success: response.success, data: clonedData }
+    if (hidenDotFilesResponse.success) {
+      hidenDotFilesResponse.data.children = []
+      hidenDotFilesResponse.data.size = 0 // hide size that the dot files take up
+      response.data.children.forEach((child) => {
+        if (!child.name.startsWith('.')) { // not dot file
+          hidenDotFilesResponse.data.children.push(child)
+          hidenDotFilesResponse.data.size += child.size
+        }
+      })
+    }
+    // update last responses
+    this.#hiddenLastResponse = hidenDotFilesResponse
     this.#lastResponse = response
 
-    const clonedData = Object.assign({}, response.data)
-    const hideDotFilesResponse = { success: response.success, data: clonedData }
-    if (hideDotFilesResponse.success) {
-      hideDotFilesResponse.data.children = hideDotFilesResponse.data.children.filter(child => !child.name.startsWith('.'))
-    }
-
-    this.#hiddenLastResponse = hideDotFilesResponse
-
+    // broadcast response to all watchers
     this.#watchers.forEach(({ watcher, hideDotFiles }) => {
-      watcher(hideDotFiles ? hideDotFilesResponse : response)
+      watcher(hideDotFiles ? hidenDotFilesResponse : response)
     })
   }
 
