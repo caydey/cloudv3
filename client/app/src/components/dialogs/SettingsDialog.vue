@@ -35,8 +35,11 @@ export default {
       this.$refs.popup.close()
     },
     save() {
-      this.$store.commit('settings/setAccessToken', this.accessToken)
       // store adjust
+      this.$store.commit('settings/setAccessToken', this.accessToken)
+      // refresh websockets connection to send it the access token
+      this.$store.dispatch('explorer/reloadConnection')
+
       this.$refs.popup.close()
     }
   }
