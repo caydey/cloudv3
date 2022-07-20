@@ -10,7 +10,7 @@ module.exports = class {
     this.#fileWatchers = new Map()
   }
 
-  addExplorer (cloudPath, hideDotFiles, callback) {
+  addExplorer (cloudPath, showAllFiles, callback) {
     let fileWatcher = this.#fileWatchers[cloudPath.system]
     // create new filewatcher for directory if we dont already have one
     if (!fileWatcher) {
@@ -18,7 +18,7 @@ module.exports = class {
       this.#fileWatchers[cloudPath.system] = fileWatcher
     }
 
-    const aborter = fileWatcher.addWatcher(hideDotFiles, (data) => {
+    const aborter = fileWatcher.addWatcher(showAllFiles, (data) => {
       callback(data)
     })
     return aborter
@@ -97,31 +97,31 @@ class FileWatcher {
   #broadcastResponse (response) {
     // create response clone with the dot files hidden
     const clonedData = Object.assign({}, response.data)
-    const hidenDotFilesResponse = { success: response.success, data: clonedData }
-    if (hidenDotFilesResponse.success && hidenDotFilesResponse.data.children) {
-      hidenDotFilesResponse.data.children = []
-      hidenDotFilesResponse.data.size = 0 // hide size that the dot files take up
+    const hidFilesResponse = { success: response.success, data: clonedData }
+    if (hidFilesResponse.success && hidFilesResponse.data.children) {
+      hidFilesResponse.data.children = []
+      hidFilesResponse.data.size = 0 // hide size that the dot files take up
       response.data.children.forEach((child) => {
         if (!child.name.startsWith('_')) { // not dot file
-          hidenDotFilesResponse.data.children.push(child)
-          hidenDotFilesResponse.data.size += child.size
+          hidFilesResponse.data.children.push(child)
+          hidFilesResponse.data.size += child.size
         }
       })
     }
     // update last responses
-    this.#hiddenLastResponse = hidenDotFilesResponse
+    this.#hiddenLastResponse = hidFilesResponse
     this.#lastResponse = response
 
     // broadcast response to all watchers
-    this.#watchers.forEach(({ watcher, hideDotFiles }) => {
-      watcher(hideDotFiles ? hidenDotFilesResponse : response)
+    this.#watchers.forEach(({ watcher, showAllFiles }) => {
+      watcher(showAllFiles ? response : hidFilesResponse)
     })
   }
 
-  addWatcher (hideDotFiles, watcher) {
+  addWatcher (showAllFiles, watcher) {
     const watcherId = this.#id
     this.#id++
-    this.#watchers.set(watcherId, { watcher, hideDotFiles })
+    this.#watchers.set(watcherId, { watcher, showAllFiles })
 
     // first watcher, begin fswatch and trigger update
     if (this.#watchers.size === 1) {
@@ -129,7 +129,7 @@ class FileWatcher {
     } else {
       // send lastest response to newly added watcher
       if (this.#lastResponse) {
-        watcher(hideDotFiles ? this.#hiddenLastResponse : this.#lastResponse)
+        watcher(showAllFiles ? this.#lastResponse : this.#hiddenLastResponse)
       }
     }
 

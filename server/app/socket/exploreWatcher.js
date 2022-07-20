@@ -27,8 +27,8 @@ module.exports = (wss) => {
 }
 
 function registerWatcher (ws, cloudPath) {
-  const hideDotFiles = !ws.isAdmin
-  ws.aborter = explorerHandler.addExplorer(cloudPath, hideDotFiles, (response) => {
+  const showAllFiles = ws.isAdmin
+  ws.aborter = explorerHandler.addExplorer(cloudPath, showAllFiles, (response) => {
     ws.send(JSON.stringify(response))
   })
 }
