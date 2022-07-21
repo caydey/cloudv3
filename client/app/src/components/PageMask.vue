@@ -34,6 +34,18 @@ export default {
     _close() {
       this.$emit('close')
     }
+  },
+  mounted() {
+    // add keydown event listener for 'Esc' key presses
+    document.onkeydown = (event) => {
+      if (event.key === 'Escape') {
+        this._close()
+      }
+    }
+  },
+  unmounted() {
+    // remove keydown event listener
+    document.onkeydown = null
   }
 }
 </script>
