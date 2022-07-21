@@ -8,7 +8,10 @@
       :style="{ 'z-index': zIndex }"
     >
       <div
-        @click.stop.prevent
+        @click.stop
+        @drop.stop
+        @dragover.stop
+        @dragleave.stop
         @contextmenu.stop.prevent
         :style="{ 'z-index': zIndex + 1 }"
       >
