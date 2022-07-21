@@ -139,7 +139,6 @@ export default {
       this.$refs.popup.close()
     },
     onFilePicked(event) {
-      console.log("here");
       for (let i = 0; i < event.target.files.length; i++) {
         this.handleFileSelected(event.target.files[i])
       }
