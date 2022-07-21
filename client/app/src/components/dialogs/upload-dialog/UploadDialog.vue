@@ -197,7 +197,6 @@ export default {
           this.handleFileSelected(droppedFiles[i])
         }
       }
-
     },
     onDragOver() {
       this.fileDraggedOver = true
