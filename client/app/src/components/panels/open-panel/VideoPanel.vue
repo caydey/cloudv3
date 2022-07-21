@@ -19,11 +19,6 @@ export default {
   props: [
     'file'
   ],
-  mimes: [
-    'video/mp4',
-    'video/x-matroska',
-    'video/webm'
-  ],
   methods: {
     updateResumeLocation: function(fileHash) {
       // get localstorage data

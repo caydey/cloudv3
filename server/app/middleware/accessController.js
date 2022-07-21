@@ -1,4 +1,4 @@
-const { LOCAL_READ_ONLY, NON_LOCAL_READ_ONLY } = require('../config.js')
+const { READ_ONLY, NON_LOCAL_READ_ONLY } = require('../config.js')
 const isAdmin = require('./isAdmin.js')
 
 module.exports = (req, res, next) => {
@@ -14,8 +14,8 @@ module.exports = (req, res, next) => {
 
   let allowedAccess = true
 
-  // LOCAL_READ_ONLY check
-  if (LOCAL_READ_ONLY) {
+  // READ_ONLY check
+  if (READ_ONLY) {
     allowedAccess = false
   }
 

@@ -13,10 +13,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // local access
-const LOCAL_READ_ONLY = (process.env.LOCAL_READ_ONLY === 'true')
+const READ_ONLY = (process.env.READ_ONLY === 'true')
 
 // non local access
 const NON_LOCAL_READ_ONLY = (process.env.NON_LOCAL_READ_ONLY === 'true')
+
+// enable hidden files
+const ENABLE_HIDDEN_FILES = (process.env.ENABLE_HIDDEN_FILES === 'true')
 
 // access token
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN
@@ -28,7 +31,8 @@ module.exports = {
   STATIC_HOST,
   DATA_ROOT,
   HIDE_DISK_SIZE,
-  LOCAL_READ_ONLY,
+  READ_ONLY,
   NON_LOCAL_READ_ONLY,
+  ENABLE_HIDDEN_FILES,
   ACCESS_TOKEN
 }

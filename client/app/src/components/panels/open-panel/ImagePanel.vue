@@ -5,11 +5,6 @@
 <script>
 export default {
   name: 'ImagePanel',
-  mimes: [
-    'image/jpeg',
-    'image/png',
-    'image/gif'
-  ],
   props: [
     'file'
   ]

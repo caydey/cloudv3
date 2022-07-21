@@ -1,6 +1,7 @@
 const CloudPath = require('../models/CloudPath.js')
 const ExplorerHandler = require.main.require('./models/ExplorerHandler.js')
 const isAdmin = require('../middleware/isAdmin.js')
+const { ENABLE_HIDDEN_FILES } = require('../config.js')
 
 const explorerHandler = new ExplorerHandler()
 
@@ -27,13 +28,12 @@ module.exports = (wss) => {
 }
 
 function registerWatcher (ws, cloudPath) {
-  ws.aborter = explorerHandler.addExplorer(cloudPath, (response) => {
-    // hide dot files if connection is not admin
-    if (!ws.isAdmin) {
-      if (response.success && response.data.children) {
-        response.data.children = response.data.children.filter(child => !child.name.startsWith('.'))
-      }
-    }
+  let showAllFiles = true
+  if (ENABLE_HIDDEN_FILES && !ws.isAdmin) { // hidden files are enabled and user is not admin
+    showAllFiles = false
+  }
+
+  ws.aborter = explorerHandler.addExplorer(cloudPath, showAllFiles, (response) => {
     ws.send(JSON.stringify(response))
   })
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="openPanelContainer">
     <span id="contents">
-      <template v-if="contentsLoading"> LOADING </template>
-      <template v-else-if="contentsError"> ERROR </template>
+      <template v-if="contentsError"> ERROR </template>
+      <template v-else-if="contentsLoading"> LOADING </template>
       <template v-else>
         {{ contents }}
       </template>
@@ -14,9 +14,6 @@
 import axios from 'axios'
 export default {
   name: 'TextPanel',
-  mimes: [
-    'text/plain'
-  ],
   props: [
     'file'
   ],
@@ -33,6 +30,8 @@ export default {
       axios.get(encodeURI(this.file.location)).then((response) => {
         this.contentsLoading = false
         this.contents = response.data.toString();
+      }).catch(() => {
+        this.contentsError = true
       })
     }
   },

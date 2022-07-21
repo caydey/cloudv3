@@ -102,18 +102,21 @@ export default {
       this.updateFileHighlights()
     },
     updateFileHighlights() {
-      this.$refs.items.forEach((item) => {
-        // reset highlights
-        item.$el.style.backgroundColor = ''
-        item.$el.style.opacity = 1
-        if (this.$store.getters['clipboard/selectionIncludes'](item.item.path)) {
-          item.$el.style.backgroundColor = '#3596D6' // highlight selected items
-        } else if (this.clipboardAction === 'CUT') {
-          if (this.$store.getters['clipboard/contentsIncludes'](item.item.path)) {
-            item.$el.style.opacity = 0.6 // dull cut items
+      if (this.$refs.items) {
+        this.$refs.items.forEach((item) => {
+          // reset highlights
+          item.$el.style.backgroundColor = ''
+          item.$el.style.opacity = 1
+          if (this.$store.getters['clipboard/selectionIncludes'](item.item.path)) {
+            item.$el.style.backgroundColor = '#3596D6' // highlight selected items
+          } else if (this.clipboardAction === 'CUT') {
+            if (this.$store.getters['clipboard/contentsIncludes'](item.item.path)) {
+              item.$el.style.opacity = 0.6 // dull cut items
+            }
           }
-        }
-      })
+        })
+
+      }
     },
     positionSelectionBox() {
       this.selectionBoxPos.left = this.selectionBox.left
@@ -211,7 +214,7 @@ export default {
         else // canceled
           return
 
-        apiFunction(sourcePath, destPath, (err) => {
+        apiFunction([sourcePath], destPath, (err) => {
           let copyMove = (action === 'COPY') ? 'copy' : 'move'
           if (err) // show error dialog
             this.$refs.errorDialog.show({
@@ -392,7 +395,7 @@ export default {
 
           const oldPath = selection.path
           const newPath = this.exploredData.path + '/' + newName
-          cloudApi.move(oldPath, newPath, (err) => { // api call
+          cloudApi.move([oldPath], newPath, (err) => { // api call
             if (err) // show error dialog if errer
               this.$refs.errorDialog.show({
                 title: `Failed to Rename file/folder`,

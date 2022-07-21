@@ -3,24 +3,25 @@ import { SOCKET_HOST } from '@/config'
 export default function createWebSocketPlugin() {
 
   return store => {
-    // socket responses
+    let socketOpen = false
+    let socket
     const startWebSocket = () => {
-      let socket = new WebSocket(SOCKET_HOST);
-      let socketOpen = false
+      socket = new WebSocket(SOCKET_HOST);
+
+      socketOpen = false
       socket.addEventListener('open', () => {
         socketOpen = true
       })
-  
+
+      // retry connection on websockets close
       socket.addEventListener('close', () => {
-        socketOpen = false
-        // retry connection
         startWebSocket()
       })
 
-
+      // listen for socket response message
       socket.onmessage = (event) => {
         store.dispatch('explorer/dataRecieved')
-        
+
         const json = JSON.parse(event.data)
         if (json.success) {
           store.commit('explorer/setData', json.data)
@@ -28,20 +29,30 @@ export default function createWebSocketPlugin() {
           store.commit('explorer/setError', json.message)
         }
       }
-      // path change
-      store.subscribe((mutation, state) => {
-        if (mutation.type === 'explorer/setPath') {
-          store.dispatch('explorer/dataRequested')
-          if (socketOpen) { // if socket is open send message
+    } // /startwebsocket
+
+    // path change
+    store.subscribe((mutation, state) => {
+      if (mutation.type === 'explorer/setPath') {
+        store.dispatch('explorer/dataRequested')
+        if (socketOpen) { // if socket is open send message
+          socket.send(state.explorer.path)
+        } else {  // else wait socket to open
+          socket.onopen = () => {
             socket.send(state.explorer.path)
-          } else {  // else wait socket to open
-            socket.onopen = () => {
-              socket.send(state.explorer.path)
-            }
           }
         }
-      })
-    } // /startwebsocket
-    startWebSocket()    
+      }
+    })
+
+    // reload connection
+    store.subscribeAction((action) => {
+      if (action.type === 'explorer/reloadConnection') {
+        // restart websocket
+        startWebSocket()
+      }
+    })
+
+    startWebSocket()
   }
 }

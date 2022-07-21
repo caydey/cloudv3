@@ -129,8 +129,9 @@ export default {
     haltUploadsAndClose() {
       // halt uploads
       this.uploadingFiles.forEach((uploadingFile) => {
-        if (!uploadingFile.completed && !uploadingFile.canceled)
+        if (!uploadingFile.completed && !uploadingFile.canceled) {
           this.cancelUpload(uploadingFile)
+        }
       })
       // dont interupt close
       this.$refs.popup.overrideCloseAction(null)
@@ -138,8 +139,9 @@ export default {
       this.$refs.popup.close()
     },
     onFilePicked(event) {
-      for (let i = 0; i < event.target.files.length; i++)
+      for (let i = 0; i < event.target.files.length; i++) {
         this.handleFileSelected(event.target.files[i])
+      }
     },
     handleFileSelected(file) {
       let uploadingFile = {
@@ -190,11 +192,11 @@ export default {
         return
 
       for (let i = 0; i < droppedFiles.length; i++) {
-        if (droppedFiles[i].type) { // not folder
+        const droppedFile = droppedFiles[i]
+        if (droppedFile.type && droppedFile.size > 0) { // not folder
           this.handleFileSelected(droppedFiles[i])
         }
       }
-
     },
     onDragOver() {
       this.fileDraggedOver = true

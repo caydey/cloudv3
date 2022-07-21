@@ -28,7 +28,7 @@ let loadingTimer
 const LOADING_TRIGGER_TIMEOUT = 500
 const actions = {
   dataRequested({ commit }) {
-    clearTimeout(loadingTimer) // if data requested called twice before response shit goes down, this fixes that
+    clearTimeout(loadingTimer)
     loadingTimer = setTimeout(() => {
       commit('setLoading', true)
     }, LOADING_TRIGGER_TIMEOUT)
@@ -36,6 +36,12 @@ const actions = {
   dataRecieved({ commit }) { // context.commit
     clearTimeout(loadingTimer)
     commit('setLoading', false)
+  },
+  reloadConnection({ commit, getters }) {
+    // plugin will listen for this function to reload the websockets connection
+    // to the server
+    // re-trigger setPath commit for plugin to reload websockets response
+    commit('setPath', getters.path);
   }
 }
 

@@ -26,6 +26,8 @@ import { defineAsyncComponent } from 'vue'
 const PdfPanel = defineAsyncComponent(() => import(/* webpackChunkName: 'pdf-viewer' */ './PdfPanel'))
 const CodePanel = defineAsyncComponent(() => import(/* webpackChunkName: 'code-viewer' */ './CodePanel'))
 
+import MimeCategories from './MimeCategories'
+
 import VideoPanel from './VideoPanel.vue'
 import TextPanel from './TextPanel.vue'
 import ImagePanel from './ImagePanel.vue'
@@ -44,22 +46,11 @@ export default {
   },
   setup() {
     return {
-      videoMimes: VideoPanel.mimes,
-      textMimes: TextPanel.mimes,
-      imageMimes: ImagePanel.mimes,
-      codeMimes: [
-        'application/javascript',
-        'application/x-httpd-php',
-        'application/json',
-        'application/x-sh',
-        'application/xml',
-        'text/x-java-source',
-        'text/x-c',
-        'text/css',
-        'text/html',
-        'text/markdown',
-      ],
-      pdfMimes: ['application/pdf']
+      videoMimes: MimeCategories.video,
+      textMimes: MimeCategories.text,
+      imageMimes: MimeCategories.image,
+      codeMimes: MimeCategories.code,
+      pdfMimes: MimeCategories.pdf
     }
   },
   props: [
