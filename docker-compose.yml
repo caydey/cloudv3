@@ -9,6 +9,7 @@ services:
     environment:
       - READ_ONLY=${READ_ONLY:?err}
       - NON_LOCAL_READ_ONLY=${NON_LOCAL_READ_ONLY:?err}
+      - ENABLE_HIDDEN_FILES=${ENABLE_HIDDEN_FILES:?err}
       - HIDE_DISK_SIZE=${HIDE_DISK_SIZE:?err}
       - ACCESS_TOKEN=${ACCESS_TOKEN}
     # uid of the owner of the DATA_ROOT folder so the api can
