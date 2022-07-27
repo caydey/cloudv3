@@ -8,7 +8,9 @@
         <div id="body">
           <div>
             <p id="text">
-              Enter the {{ type === "directory" ? "" : "new" }} name:
+              Enter the
+              <template v-if="createOrRename === 'RENAME'">new</template>
+              name:
             </p>
             <input
               ref="fileInput"
@@ -22,7 +24,7 @@
             <div id="buttons">
               <button class="actionButton" @click="cancel">Cancel</button>
               <button class="actionButton" @click="rename">
-                {{ type === "directory" ? "Create" : "Rename" }}
+                {{ createOrRename === "CREATE" ? "Create" : "Rename" }}
               </button>
             </div>
           </div>
@@ -46,13 +48,13 @@ export default {
       resolvePromise: undefined,
       filename: '',
       fileicon: '',
-      type: null
+      createOrRename: ''
     }
   },
   methods: {
-    show(mimetype, type, filename) {
-      this.type = type
-      if (this.type === 'directory')
+    show(mimetype, type, createOrRename, filename) {
+      this.createOrRename = createOrRename
+      if (type === 'directory')
         this.fileicon = iconFromMime('folder')
       else
         this.fileicon = iconFromMime(mimetype)
