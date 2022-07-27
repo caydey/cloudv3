@@ -33,6 +33,7 @@ export default {
   image: [
     'image/jpeg',
     'image/png',
-    'image/gif'
+    'image/gif',
+    'image/svg+xml'
   ],
 }
