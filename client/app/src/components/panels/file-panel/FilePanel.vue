@@ -388,7 +388,7 @@ export default {
       const mimetype = selection.mime
       const type = selection.type
       const filename = selection.name
-      this.$refs.renameDialog.show(mimetype, type, filename).then((newName) => {
+      this.$refs.renameDialog.show(mimetype, type, 'RENAME', filename).then((newName) => {
         if (newName) {
           // no name change
           if (newName === filename) return
@@ -409,7 +409,7 @@ export default {
       const mimetype = 'folder'
       const filename = 'New Folder'
       const type = 'directory'
-      this.$refs.renameDialog.show(mimetype, type, filename).then((folderName) => {
+      this.$refs.renameDialog.show(mimetype, type, 'CREATE', filename).then((folderName) => {
         if (folderName) {
           const path = selection.path + '/' + folderName
           cloudApi.mkdir(path, (err) => { // api call
