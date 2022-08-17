@@ -2,6 +2,8 @@ const fs = require('fs-extra')
 
 const { exploreApi, validateExplorePath } = require('./PathExplorer.js')
 
+const { HIDDEN_FILES_CHARACTER } = require('../config.js')
+
 /* class ExplorerHandler */
 module.exports = class {
   #fileWatchers
@@ -102,7 +104,7 @@ class FileWatcher {
       hidFilesResponse.data.children = []
       hidFilesResponse.data.size = 0 // hide size that the dot files take up
       response.data.children.forEach((child) => {
-        if (!child.name.startsWith('_')) { // not dot file
+        if (!child.name.startsWith(HIDDEN_FILES_CHARACTER)) { // not hidden file
           hidFilesResponse.data.children.push(child)
           hidFilesResponse.data.size += child.size
         }

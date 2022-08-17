@@ -4,6 +4,9 @@ let STATIC_HOST = '/static'
 // data root - production, (docker shared volume)
 let DATA_ROOT = '/data'
 
+// Hidden files character
+const HIDDEN_FILES_CHARACTER = '~'
+
 if (process.env.NODE_ENV === 'development') {
   // static file server - development
   STATIC_HOST = 'http://localhost:3000/static'
@@ -30,6 +33,7 @@ const HIDE_DISK_SIZE = (process.env.HIDE_DISK_SIZE === 'true')
 module.exports = {
   STATIC_HOST,
   DATA_ROOT,
+  HIDDEN_FILES_CHARACTER,
   HIDE_DISK_SIZE,
   READ_ONLY,
   NON_LOCAL_READ_ONLY,
