@@ -5,7 +5,7 @@ let STATIC_HOST = '/static'
 let DATA_ROOT = '/data'
 
 // Hidden files character
-const HIDDEN_FILES_CHARACTER = '~'
+const HIDDEN_FILES_CHARACTER = '_'
 
 if (process.env.NODE_ENV === 'development') {
   // static file server - development
