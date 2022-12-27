@@ -19,6 +19,7 @@ export default {
   ],
   text: [
     'text/plain',
+    'text/x-nfo',
     'application/octet-stream',
     'application/x-subrip'
   ],
@@ -28,7 +29,8 @@ export default {
   video: [
     'video/mp4',
     'video/x-matroska',
-    'video/webm'
+    'video/webm',
+    'video/x-msvideo'
   ],
   image: [
     'image/jpeg',
