@@ -38,4 +38,7 @@ export default {
     'image/gif',
     'image/svg+xml'
   ],
+  epub: [
+    "application/epub+zip"
+  ]
 }

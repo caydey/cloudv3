@@ -1,6 +1,7 @@
+import naturalCompare from "natural-compare"
+
 // sort folders first then files
 export default function(children, options) {
-
   let files = []
   let folders = []
   children.forEach(item => {
@@ -22,8 +23,8 @@ export default function(children, options) {
     folders.sort((a, b) => new Date(a.modified) - new Date(b.modified))
     files.sort((a, b) => new Date(a.modified) - new Date(b.modified))
   } else {
-    folders.sort((a, b) => a[sortField] - b[sortField])
-    files.sort((a, b) => a[sortField] - b[sortField])
+    folders.sort((a,b) => naturalCompare(a[sortField], b[sortField]))
+    files.sort((a,b) => naturalCompare(a[sortField], b[sortField]))
   }
 
   // descending sort

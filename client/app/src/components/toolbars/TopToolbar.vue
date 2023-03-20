@@ -2,9 +2,24 @@
   <div id="toptoolbar">
     <div id="vertialCenter">
       <div id="navigation">
-        <ToolbarIcon class="actionIcon" icon="previous" @click="goPrevious" />
-        <ToolbarIcon class="actionIcon" icon="next" @click="goNext" />
-        <ToolbarIcon class="actionIcon" icon="up" @click="goParent" />
+        <ToolbarIcon
+          class="actionIcon"
+          icon="previous"
+          @click="handleAction('PREVIOUS')"
+          @mousedown.middle="handleAction('PREVIOUS', true)"
+        />
+        <ToolbarIcon
+          class="actionIcon"
+          icon="next"
+          @click="handleAction('NEXT')"
+          @mousedown.middle="handleAction('NEXT', true)"
+        />
+        <ToolbarIcon
+          class="actionIcon"
+          icon="up"
+          @click="handleAction('PARENT')"
+          @mousedown.middle="handleAction('PARENT', true)"
+        />
       </div>
       <div id="trail">
         <div
@@ -12,6 +27,7 @@
           v-for="(item, index) in trailItems"
           :key="item"
           @click="trailClick(index)"
+          @mousedown.middle="trailClick(index, true)"
         >
           <template v-if="index == 0">
             <ToolbarIcon id="harddisk" icon="harddisk" />
@@ -30,6 +46,8 @@
 <script>
 import ToolbarIcon from '@/components/icons/ToolbarIcon.vue'
 
+import openNewWindow from '@/helpers/openNewWindow.js'
+
 let animateScrollInterval
 export default {
   name: 'TopToolbar',
@@ -37,21 +55,39 @@ export default {
     ToolbarIcon
   },
   methods: {
-    trailClick(index) {
+    trailClick(index, newTab) {
       if (!this.path) return // path not loaded yet / api failure
       let clickedPath = this.path.split('/').slice(0, index + 1).join('/') || '/'
-      this.$store.commit('explorer/setPath', clickedPath)
+      if (newTab) {
+        openNewWindow(clickedPath)
+      } else {
+        this.$store.commit('explorer/setPath', clickedPath)
+      }
     },
-    goParent() {
-      let splitted = this.path.split('/')
-      let parentPath = splitted.slice(0, splitted.length - 1).join('/') || '/'
-      this.$store.commit('explorer/setPath', parentPath)
-    },
-    goPrevious() {
-      this.$router.back()
-    },
-    goNext() {
-      this.$router.forward()
+    handleAction(action, newTab) {
+      if (action === 'PREVIOUS') {
+        if (newTab) { // new tab
+          const back = window.history.state.back
+          if (back) window.open(back, "_blank")
+        } else {
+          this.$router.back()
+        }
+      } else if (action === 'NEXT') {
+        if (newTab) { // new tab
+          const forward = window.history.state.forward
+          if (forward) window.open(forward, "_blank")
+        } else {
+          this.$router.forward()
+        }
+      } else if (action === 'PARENT') {
+        let splitted = this.path.split('/')
+        let parentPath = splitted.slice(0, splitted.length - 1).join('/') || '/'
+        if (newTab) { // new tab
+          openNewWindow(parentPath)
+        } else { 
+          this.$store.commit('explorer/setPath', parentPath)
+        }
+      }
     },
     handleScroll(event) {
       let scrollIncrement = 80

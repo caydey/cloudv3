@@ -2,6 +2,7 @@
   <div
     id="panelitem"
     @click="itemClick"
+    @mousedown.middle="itemMiddleClick"
     :class="{
       zoomNeg2: zoomLevel === -2,
       zoomNeg1: zoomLevel === -1,
@@ -22,6 +23,8 @@
 <script>
 import iconFromMime from '@/helpers/iconFromMime'
 
+import openNewWindow from '@/helpers/openNewWindow'
+
 import { mapGetters } from 'vuex'
 export default {
   name: 'PanelItem',
@@ -37,6 +40,9 @@ export default {
   methods: {
     itemClick() {
       this.$store.commit('explorer/setPath', this.item.path)
+    },
+    itemMiddleClick() {
+      openNewWindow(this.item.path)
     }
   },
   mounted() {
