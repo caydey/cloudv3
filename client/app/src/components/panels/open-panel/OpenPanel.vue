@@ -15,6 +15,9 @@
     <template v-else-if="pdfMimes.includes(file.mime)">
       <PdfPanel :file="file" />
     </template>
+    <template v-else-if="epubMimes.includes(file.mime)">
+      <EpubPanel :file="file" />
+    </template>
     <template v-else>
       <UnknownPanel :file="file" />
     </template>
@@ -25,6 +28,7 @@
 import { defineAsyncComponent } from 'vue'
 const PdfPanel = defineAsyncComponent(() => import(/* webpackChunkName: 'pdf-viewer' */ './PdfPanel'))
 const CodePanel = defineAsyncComponent(() => import(/* webpackChunkName: 'code-viewer' */ './CodePanel'))
+const EpubPanel = defineAsyncComponent(() => import(/* webpackChunkName: 'epub-viewer' */ './EpubPanel'))
 
 import MimeCategories from './MimeCategories'
 
@@ -42,7 +46,8 @@ export default {
     TextPanel,
     ImagePanel,
     CodePanel,
-    PdfPanel
+    PdfPanel,
+    EpubPanel
   },
   setup() {
     return {
@@ -50,7 +55,8 @@ export default {
       textMimes: MimeCategories.text,
       imageMimes: MimeCategories.image,
       codeMimes: MimeCategories.code,
-      pdfMimes: MimeCategories.pdf
+      pdfMimes: MimeCategories.pdf,
+      epubMimes: MimeCategories.epub
     }
   },
   props: [
