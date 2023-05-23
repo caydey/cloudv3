@@ -4,9 +4,13 @@ export default function (children, search) {
   if (search === "") {
     return matches;
   }
-
+  search = search.toUpperCase();
   for (let i = 0; i < children.length; i++) {
-    if (children[i].name.toUpperCase().includes(search.toUpperCase())) {
+    const filename = children[i].name.toUpperCase();
+    if (
+      (search.length <= 3 && filename.startsWith(search)) || // less than 3, startsWith
+      (search.length > 3 && filename.includes(search)) // greater than 3, includes
+    ) {
       matches.push(children[i]);
     }
   }
