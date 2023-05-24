@@ -5,7 +5,7 @@
         <label for="accessToken">Access-Token:</label>
         <input
           @contextmenu.stop
-          type="text"
+          type="password"
           name="accessToken"
           class="inputBox"
           v-model="accessToken"
