@@ -5,6 +5,7 @@
       @click.stop="_close()"
       @contextmenu.stop.prevent="_close()"
       @mousedown.stop
+      @keydown.stop
       :style="{ 'z-index': zIndex }"
     >
       <div
@@ -23,29 +24,29 @@
 
 <script>
 export default {
-  name: 'PageMask',
+  name: "PageMask",
   props: {
-    'zIndex': {
+    zIndex: {
       type: Number,
-      default: 10
-    }
+      default: 10,
+    },
   },
   methods: {
     _close() {
-      this.$emit('close')
-    }
+      this.$emit("close");
+    },
   },
   mounted() {
     // add keydown event listener for 'Esc' key presses
     document.onkeydown = (event) => {
-      if (event.key === 'Escape') {
-        this._close()
+      if (event.key === "Escape") {
+        this._close();
       }
-    }
+    };
   },
   unmounted() {
     // remove keydown event listener
-    document.onkeydown = null
-  }
-}
+    document.onkeydown = null;
+  },
+};
 </script>
