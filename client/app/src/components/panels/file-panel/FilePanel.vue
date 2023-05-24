@@ -1,6 +1,9 @@
 <template>
   <div
     id="filepanel"
+    ref="filepanel"
+    :tabindex="0"
+    @keydown="keydownEvent"
     @contextmenu.stop.prevent="showContextMenu($event, null)"
     @mousedown="beginSelection"
     @mouseup="endSelection"
@@ -76,31 +79,21 @@ export default {
     SettingsDialog,
     SearchBar,
   },
-  mounted() {
-    this.addKeyListener();
-  },
-  beforeUnmount() {
-    this.removeKeyListener();
-  },
   data() {
     return {
       // contextMenuFocus: null,
       selectionBox: { active: false, left: 0, top: 0, right: 0, bottom: 0 },
       selectionBoxPos: { left: 0, top: 0, right: 0, bottom: 0 },
+      keydownListener: true,
     };
   },
   methods: {
-    addKeyListener() {
-      document.addEventListener("keydown", this.onKeyPress);
-    },
-    removeKeyListener() {
-      document.removeEventListener("keydown", this.onKeyPress);
-    },
-    onKeyPress(evt) {
+    keydownEvent(evt) {
+      if (!this.keydownListener) return;
       if (evt.key.length !== 1) {
         return;
       }
-      this.removeKeyListener();
+      this.keydownListener = false;
       this.$refs.searchBar.begin(evt.key, ({ action, search }) => {
         if (action === "SEARCH") {
           const matches = searchFiles(this.children, search);
@@ -114,7 +107,8 @@ export default {
               this.$store.commit("explorer/setPath", matches[0].path);
             }
           }
-          this.addKeyListener();
+          this.keydownListener = true;
+          this.$refs.filepanel.focus();
         }
         this.updateFileHighlights();
         this.updateFileHighlights({ scrollToSelection: true });
