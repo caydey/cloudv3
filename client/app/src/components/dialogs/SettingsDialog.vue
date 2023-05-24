@@ -4,6 +4,7 @@
       <div id="container">
         <label for="accessToken">Access-Token:</label>
         <input
+          @contextmenu.stop
           type="text"
           name="accessToken"
           class="inputBox"
@@ -18,32 +19,32 @@
 </template>
 
 <script>
-import PopupModal from './PopupModal'
+import PopupModal from "./PopupModal";
 
 export default {
   name: "SettingsDialog",
   components: {
-    PopupModal
+    PopupModal,
   },
   methods: {
     show() {
-      this.accessToken = this.$store.getters['settings/accessToken']
+      this.accessToken = this.$store.getters["settings/accessToken"];
       // show popup
-      this.$refs.popup.open()
+      this.$refs.popup.open();
     },
     close() {
-      this.$refs.popup.close()
+      this.$refs.popup.close();
     },
     save() {
       // store adjust
-      this.$store.commit('settings/setAccessToken', this.accessToken)
+      this.$store.commit("settings/setAccessToken", this.accessToken);
       // refresh websockets connection to send it the access token
-      this.$store.dispatch('explorer/reloadConnection')
+      this.$store.dispatch("explorer/reloadConnection");
 
-      this.$refs.popup.close()
-    }
-  }
-}
+      this.$refs.popup.close();
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

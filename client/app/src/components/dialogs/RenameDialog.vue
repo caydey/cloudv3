@@ -13,6 +13,7 @@
               name:
             </p>
             <input
+              @contextmenu.stop
               ref="fileInput"
               class="inputBox"
               type="text"
@@ -35,58 +36,59 @@
 </template>
 
 <script>
-import PopupModal from './PopupModal'
-import iconFromMime from '@/helpers/iconFromMime'
+import PopupModal from "./PopupModal";
+import iconFromMime from "@/helpers/iconFromMime";
 
 export default {
   name: "DeleteDialog",
   components: {
-    PopupModal
+    PopupModal,
   },
   data() {
     return {
       resolvePromise: undefined,
-      filename: '',
-      fileicon: '',
-      createOrRename: ''
-    }
+      filename: "",
+      fileicon: "",
+      createOrRename: "",
+    };
   },
   methods: {
     show(mimetype, type, createOrRename, filename) {
-      this.createOrRename = createOrRename
-      if (type === 'directory')
-        this.fileicon = iconFromMime('folder')
-      else
-        this.fileicon = iconFromMime(mimetype)
-      this.filename = filename
+      this.createOrRename = createOrRename;
+      if (type === "directory") this.fileicon = iconFromMime("folder");
+      else this.fileicon = iconFromMime(mimetype);
+      this.filename = filename;
 
-      this.highlightFilename()
+      this.highlightFilename();
 
       // show popup
-      this.$refs.popup.open()
+      this.$refs.popup.open();
 
       // return promise
       return new Promise((resolve) => {
-        this.resolvePromise = resolve
-      })
+        this.resolvePromise = resolve;
+      });
     },
     highlightFilename() {
       // timeout to let html load
       setTimeout(() => {
         this.$refs.fileInput.focus();
-        this.$refs.fileInput.setSelectionRange(0, this.filename.lastIndexOf('.'));
-      })
+        this.$refs.fileInput.setSelectionRange(
+          0,
+          this.filename.lastIndexOf(".")
+        );
+      });
     },
     rename() {
-      this.$refs.popup.close()
-      this.resolvePromise(this.filename)
+      this.$refs.popup.close();
+      this.resolvePromise(this.filename);
     },
     cancel() {
-      this.$refs.popup.close()
-      this.resolvePromise(false)
-    }
-  }
-}
+      this.$refs.popup.close();
+      this.resolvePromise(false);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
