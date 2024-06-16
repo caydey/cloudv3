@@ -4,6 +4,11 @@ import path from "path";
 
 import translateErrorCode from "../../helpers/translateErrorCode";
 import CloudPath from "../../models/CloudPath";
+import { FileLogWriter } from "../../models/FileLogWriter";
+import {
+  getRequestIp,
+  getRequestUa,
+} from "../../helpers/getRequestInformation";
 
 const router = express.Router();
 
@@ -56,6 +61,12 @@ router.post("/", (req, res) => {
   };
 
   if (res.locals.action === "MOVE") {
+    FileLogWriter.move(
+      getRequestIp(req),
+      getRequestUa(req),
+      fromCloudPath.virtual,
+      CloudPath.CreateTrustedPath(sysDestPath).virtual
+    );
     fs.move(
       fromCloudPath.system,
       sysDestPath,
@@ -63,6 +74,12 @@ router.post("/", (req, res) => {
       errorHandler
     );
   } else if (res.locals.action === "COPY") {
+    FileLogWriter.copy(
+      getRequestIp(req),
+      getRequestUa(req),
+      fromCloudPath.virtual,
+      CloudPath.CreateTrustedPath(sysDestPath).virtual
+    );
     fs.copy(fromCloudPath.system, sysDestPath, errorHandler);
   }
 });

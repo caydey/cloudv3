@@ -3,6 +3,11 @@ import fs from "fs-extra";
 
 import CloudPath from "../../models/CloudPath.js";
 import translateErrorCode from "../../helpers/translateErrorCode.js";
+import { FileLogWriter } from "../../models/FileLogWriter.js";
+import {
+  getRequestIp,
+  getRequestUa,
+} from "../../helpers/getRequestInformation.js";
 
 const router = express.Router();
 
@@ -32,6 +37,8 @@ router.post("/", (req, res) => {
       message: "refusing to delete root directory",
     });
   }
+
+  FileLogWriter.delete(getRequestIp(req), getRequestUa(req), cloudPath.virtual);
 
   if (!recursiveFlag) {
     if (fs.statSync(cloudPath.system).isDirectory()) {

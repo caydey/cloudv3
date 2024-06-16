@@ -34,3 +34,5 @@ export const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 
 // disclose disk size
 export const HIDE_DISK_SIZE = process.env.HIDE_DISK_SIZE === "true";
+
+export const LOG_FILE = process.env.LOG_FILE;

@@ -8,6 +8,11 @@ import { STATIC_HOST } from "../../config";
 import CloudSizeMonitor from "../../models/CloudSizeMonitor";
 import translateErrorCode from "../../helpers/translateErrorCode";
 import { FileStats } from "../../types/FileStats";
+import { FileLogWriter } from "../../models/FileLogWriter";
+import {
+  getRequestIp,
+  getRequestUa,
+} from "../../helpers/getRequestInformation";
 
 const router = express.Router();
 
@@ -28,6 +33,8 @@ router.post("/", (req, res) => {
   }
 
   const cloudPath = CloudPath.Create(givenPath);
+
+  FileLogWriter.ls(getRequestIp(req), getRequestUa(req), cloudPath.virtual);
 
   lsApi(cloudPath, (response) => {
     res.status(200).send(response);

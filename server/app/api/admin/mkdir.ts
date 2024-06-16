@@ -4,6 +4,11 @@ import path from "path";
 import translateErrorCode from "../../helpers/translateErrorCode.js";
 
 import CloudPath from "../../models/CloudPath.js";
+import { FileLogWriter } from "../../models/FileLogWriter";
+import {
+  getRequestIp,
+  getRequestUa,
+} from "../../helpers/getRequestInformation.js";
 
 const router = express.Router();
 
@@ -34,6 +39,8 @@ router.post("/", (req, res) => {
       data: { path: givenPath },
     });
   }
+
+  FileLogWriter.mkdir(getRequestIp(req), getRequestUa(req), cloudPath.virtual);
 
   fs.mkdir(cloudPath.system, { recursive: true }, (err) => {
     if (err) {

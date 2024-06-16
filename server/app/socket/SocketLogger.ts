@@ -7,17 +7,17 @@ class SocketLogger {
     }
   }
 
-  public static recieved(data: string, id?: string) {
-    SocketLogger.writeLog(`WS [${id ?? "??????"}]v ${data}`);
+  public static recieved(id: string, data: string) {
+    SocketLogger.writeLog(`WS [${id}]v ${data}`);
   }
-  public static send(data: string, id?: string) {
-    SocketLogger.writeLog(`WS [${id ?? "??????"}]^ ${data}`);
+  public static send(id: string, data: string) {
+    SocketLogger.writeLog(`WS [${id}]^ ${data}`);
   }
-  public static open(id?: string) {
-    SocketLogger.writeLog(`WS [${id ?? "??????"}] OPEN`);
+  public static open(id: string) {
+    SocketLogger.writeLog(`WS [${id}] OPEN`);
   }
-  public static close(id?: string) {
-    SocketLogger.writeLog(`WS [${id ?? "??????"}] CLOSE`);
+  public static close(id: string) {
+    SocketLogger.writeLog(`WS [${id}] CLOSE`);
   }
 }
 
