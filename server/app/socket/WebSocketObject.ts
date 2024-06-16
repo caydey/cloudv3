@@ -4,6 +4,7 @@ import { WatchAborter } from "./WatchAborter";
 interface AdditionalFields {
   isAlive: boolean;
   isAdmin: boolean;
+  id: string;
   aborter: WatchAborter;
 }
 

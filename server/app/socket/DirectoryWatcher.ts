@@ -8,7 +8,7 @@ import { WatchAborter } from "./WatchAborter";
 import { HIDDEN_FILES_CHARACTER } from "../config";
 
 // in fs.watch being called up to 3 times in the span of 10ms
-const TRIGGER_DELAY = 750;
+const TRIGGER_DELAY = 100;
 
 export interface Watcher {
   showAllFiles: boolean;
@@ -17,13 +17,13 @@ export interface Watcher {
 
 export class DirectoryWatcher {
   private watchers: Map<number, Watcher> = new Map();
-  private fileWatcher: FSWatcher | null = null;
-  private lastResponse: LsApiResponse | null = null;
-  private hiddenLastResponse: LsApiResponse | null = null;
+  private fileWatcher?: FSWatcher;
+  private lastResponse?: LsApiResponse;
+  private hiddenLastResponse?: LsApiResponse;
   private id = 0;
   private cloudPath: CloudPath;
 
-  private updateTimeout: NodeJS.Timeout | null = null;
+  private updateTimeout?: NodeJS.Timeout;
 
   constructor(cloudPath: CloudPath) {
     this.cloudPath = cloudPath;
