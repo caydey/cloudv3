@@ -1,21 +1,20 @@
 import mime from "mime-types";
 
-function getCustomType(filename: string): string | null {
+function getCustomType(filename: string): string | undefined {
   const extension = filename.split(".").pop() ?? "";
 
-  const customLookup: Record<string, string> = {
-    url: "application/x-mswinurl",
-    cpp: "text/x-c++",
-    cs: "text/x-csharp",
-    kt: "text/x-kotlin",
-    log: "text/x-log",
-    py: "text/x-python",
-    sh: "text/x-script",
-    pptx: "x-office-presentation",
-  };
+  const customLookup: Map<string, string> = new Map([
+    ["url", "application/x-mswinurl"],
+    ["cpp", "text/x-c++"],
+    ["cs", "text/x-csharp"],
+    ["kt", "text/x-kotlin"],
+    ["log", "text/x-log"],
+    ["py", "text/x-python"],
+    ["sh", "text/x-script"],
+    ["pptx", "x-office-presentation"],
+  ]);
 
-  if (extension in customLookup) return customLookup[extension];
-  return null;
+  return customLookup.get(extension);
 }
 
 export function getMimeType(filename?: string): string {
