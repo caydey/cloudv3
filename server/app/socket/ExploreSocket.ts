@@ -7,6 +7,7 @@ import { WebSocketObject } from "./WebSocketObject";
 import SocketLogger from "./SocketLogger";
 
 import { v4 as uuidv4 } from "uuid";
+import { DoubleTriggerDelayer } from "../models/DoubleTriggerDelayer";
 
 class ExploreSocket {
   private explorerHandler = new ExplorerHandler();
@@ -15,11 +16,13 @@ class ExploreSocket {
     return uuidv4().substring(0, 6);
   }
 
+  // add double trigger delayer to ws object and call on dir change
+
   init(wss: Server) {
     wss.on("connection", (ws: WebSocketObject, request) => {
-      // add 'admin' field to websocket object so we dont hide dot files from admins
-      ws.isAdmin = isAdmin(request.headers.cookie);
+      ws.isAdmin = isAdmin(request.headers.cookie); // for dot files
       ws.id = this.createSocketId();
+      ws.doubleTriggerDelayer = new DoubleTriggerDelayer(1000); // 1 second delay before double directory change
 
       SocketLogger.open(ws.id);
 
@@ -41,14 +44,17 @@ class ExploreSocket {
     const showAllFiles = ws.isAdmin || !ENABLE_HIDDEN_FILES;
 
     SocketLogger.recieved(cloudPath.virtual, ws.id);
-    ws.aborter = this.explorerHandler.addExplorer(
-      cloudPath,
-      showAllFiles,
-      (response) => {
-        SocketLogger.send(response.data?.path ?? "/", ws.id);
-        ws.send(JSON.stringify(response));
-      }
-    );
+
+    ws.doubleTriggerDelayer?.start(() => {
+      ws.aborter = this.explorerHandler.addExplorer(
+        cloudPath,
+        showAllFiles,
+        (response) => {
+          SocketLogger.send(response.data?.path ?? "/", ws.id);
+          ws.send(JSON.stringify(response));
+        }
+      );
+    });
   }
 }
 

@@ -1,14 +1,11 @@
-// wait TRIGGER_DELAY to send response, because changing a dir will result
-
-import { FSWatcher } from "fs-extra";
 import fs from "fs";
-import CloudPath from "../models/CloudPath";
+import { FSWatcher } from "fs-extra";
+
 import { LsApiResponse, lsApi, validateExplorePath } from "../api/user/ls";
 import { WatchAborter } from "./WatchAborter";
 import { HIDDEN_FILES_CHARACTER } from "../config";
-
-// in fs.watch being called up to 3 times in the span of 10ms
-const TRIGGER_DELAY = 100;
+import CloudPath from "../models/CloudPath";
+import { DoubleTriggerDelayer } from "../models/DoubleTriggerDelayer";
 
 export interface Watcher {
   showAllFiles: boolean;
@@ -16,14 +13,16 @@ export interface Watcher {
 }
 
 export class DirectoryWatcher {
+  private readonly cloudPath: CloudPath;
+
+  private readonly FS_WATCH_DELAY = 100;
+  private doubleTriggerDelayer = new DoubleTriggerDelayer(2000);
+
   private watchers: Map<number, Watcher> = new Map();
   private fileWatcher?: FSWatcher;
   private lastResponse?: LsApiResponse;
   private hiddenLastResponse?: LsApiResponse;
-  private id = 0;
-  private cloudPath: CloudPath;
-
-  private updateTimeout?: NodeJS.Timeout;
+  private watcherIdCounter = 0;
 
   constructor(cloudPath: CloudPath) {
     this.cloudPath = cloudPath;
@@ -38,26 +37,21 @@ export class DirectoryWatcher {
         });
       }
 
-      this.triggerUpdate();
+      this.doubleTriggerDelayer.start(this.update.bind(this));
 
       let timer: NodeJS.Timeout;
       this.fileWatcher = fs.watch(this.cloudPath.system);
       this.fileWatcher.addListener("change", () => {
         clearTimeout(timer);
         timer = setTimeout(() => {
-          this.triggerUpdate();
-        }, TRIGGER_DELAY);
+          this.doubleTriggerDelayer.start(this.update.bind(this));
+        }, this.FS_WATCH_DELAY);
       });
     });
   }
 
   private abort() {
     this.fileWatcher?.removeAllListeners();
-  }
-
-  private triggerUpdate() {
-    if (this.updateTimeout) clearTimeout(this.updateTimeout);
-    this.updateTimeout = setTimeout(this.update.bind(this), 750);
   }
 
   private update() {
@@ -99,8 +93,8 @@ export class DirectoryWatcher {
     showAllFiles: boolean,
     callback: (wsData: LsApiResponse) => void
   ): WatchAborter {
-    const watcherId = this.id;
-    this.id++;
+    const watcherId = this.watcherIdCounter;
+    this.watcherIdCounter++;
     this.watchers.set(watcherId, { callback, showAllFiles });
 
     // first watcher, begin fswatch and trigger update
