@@ -7,6 +7,8 @@ import { HIDDEN_FILES_CHARACTER } from "../config";
 import CloudPath from "../models/CloudPath";
 import { DoubleTriggerDelayer } from "../models/DoubleTriggerDelayer";
 
+import equal from "fast-deep-equal";
+
 export interface Watcher {
   showAllFiles: boolean;
   callback: (wsData: LsApiResponse) => void;
@@ -29,6 +31,8 @@ export class DirectoryWatcher {
   }
 
   private startWatching() {
+    this.lastResponse = undefined;
+    this.hiddenLastResponse = undefined;
     validateExplorePath(this.cloudPath, (errMessage) => {
       if (errMessage) {
         return this.broadcastResponse({
@@ -50,15 +54,11 @@ export class DirectoryWatcher {
     });
   }
 
-  private abort() {
-    this.fileWatcher?.removeAllListeners();
-  }
-
   private update() {
     lsApi(this.cloudPath, (response) => {
       // exploreApi returned error, abort all future updates
       if (!response.success) {
-        this.abort();
+        this.fileWatcher?.removeAllListeners();
       }
       this.broadcastResponse(response);
     });
@@ -67,25 +67,29 @@ export class DirectoryWatcher {
   private broadcastResponse(response: LsApiResponse) {
     // create response clone with the dot files hidden
     const clonedData = Object.assign({}, response.data);
-    const hidFilesResponse = { success: response.success, data: clonedData };
-    if (hidFilesResponse.success && hidFilesResponse.data.children) {
-      hidFilesResponse.data.children = [];
-      hidFilesResponse.data.size = 0; // hide size that the dot files take up
+    const hiddenFilesResponse = { success: response.success, data: clonedData };
+    if (hiddenFilesResponse.success && hiddenFilesResponse.data.children) {
+      hiddenFilesResponse.data.children = [];
+      hiddenFilesResponse.data.size = 0; // hide size that the dot files take up
       response.data?.children?.forEach((child) => {
         if (!child.name.startsWith(HIDDEN_FILES_CHARACTER)) {
           // not hidden file
-          hidFilesResponse.data?.children?.push(child);
-          hidFilesResponse.data.size += child.size;
+          hiddenFilesResponse.data?.children?.push(child);
+          hiddenFilesResponse.data.size += child.size;
         }
       });
     }
+
+    // dont resend same response
+    if (equal(hiddenFilesResponse, this.hiddenLastResponse)) return;
+
     // update last responses
-    this.hiddenLastResponse = hidFilesResponse;
+    this.hiddenLastResponse = hiddenFilesResponse;
     this.lastResponse = response;
 
     // broadcast response to all watchers
     this.watchers.forEach(({ callback, showAllFiles }) => {
-      callback(showAllFiles ? response : hidFilesResponse);
+      callback(showAllFiles ? response : hiddenFilesResponse);
     });
   }
 
@@ -110,7 +114,7 @@ export class DirectoryWatcher {
     const aborter = () => {
       this.watchers.delete(watcherId);
       if (this.watchers.size === 0) {
-        this.abort();
+        this.fileWatcher?.removeAllListeners();
       }
     };
     return aborter;

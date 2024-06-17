@@ -1,6 +1,6 @@
-import CloudPath from "./CloudPath.js";
-import { WatchAborter } from "../socket/WatchAborter.js";
-import { DirectoryWatcher } from "../socket/DirectoryWatcher.js";
+import CloudPath from "../models/CloudPath.js";
+import { WatchAborter } from "./WatchAborter.js";
+import { DirectoryWatcher } from "./DirectoryWatcher.js";
 import { LsApiResponse } from "../api/user/ls.js";
 
 export class ExplorerHandler {
