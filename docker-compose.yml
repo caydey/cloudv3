@@ -1,5 +1,4 @@
 # DATA_ROOT environment variable based on contents of .env
-version: "3.9"
 services:
   server: # back-end nodejs
     build: ./server
