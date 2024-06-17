@@ -31,6 +31,8 @@ export class DirectoryWatcher {
   }
 
   private startWatching() {
+    this.lastResponse = undefined;
+    this.hiddenLastResponse = undefined;
     validateExplorePath(this.cloudPath, (errMessage) => {
       if (errMessage) {
         return this.broadcastResponse({
