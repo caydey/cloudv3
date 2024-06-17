@@ -5,17 +5,21 @@ export default function createWebSocketPlugin() {
   return store => {
     let socketOpen = false
     let socket
+    let lastPath;
     const startWebSocket = () => {
       socket = new WebSocket(SOCKET_HOST);
 
       socketOpen = false
       socket.addEventListener('open', () => {
         socketOpen = true
+        if (lastPath) {
+          socket.send(lastPath)
+        }
       })
 
       // retry connection on websockets close
       socket.addEventListener('close', () => {
-        startWebSocket()
+        setTimeout(startWebSocket, 10_000)
       })
 
       // listen for socket response message
@@ -35,12 +39,9 @@ export default function createWebSocketPlugin() {
     store.subscribe((mutation, state) => {
       if (mutation.type === 'explorer/setPath') {
         store.dispatch('explorer/dataRequested')
-        if (socketOpen) { // if socket is open send message
+        lastPath = state.explorer.path
+        if (socketOpen) { // if socket is open send message, else it'll be caught on open lastPath check
           socket.send(state.explorer.path)
-        } else {  // else wait socket to open
-          socket.onopen = () => {
-            socket.send(state.explorer.path)
-          }
         }
       }
     })
