@@ -1,5 +1,5 @@
 import CloudPath from "../models/CloudPath";
-import { ExplorerHandler } from "../models/ExplorerHandler";
+import { ExplorerHandler } from "./ExplorerHandler";
 import { isAdmin } from "../middleware/isAdmin";
 import { ENABLE_HIDDEN_FILES } from "../config";
 import { Server } from "ws";
