@@ -18,10 +18,6 @@ const port = 3000;
 app.use(express.json()); // parsing json
 app.use(bodyParser.urlencoded({ extended: true })); // parsing forms
 
-// header security
-app.use(helmet());
-app.disable("x-powered-by");
-
 // development
 if (IS_DEV) {
   // serve static files
@@ -31,6 +27,10 @@ if (IS_DEV) {
 
   // my custom logger middleware
   Logger.mount(app);
+} else {
+  // production header security
+  app.use(helmet());
+  app.disable("x-powered-by");
 }
 
 // configure api routes
