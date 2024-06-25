@@ -28,7 +28,7 @@ export default class AccessController {
 
     // NON_LOCAL_READ_ONLY check
     const clientIp = req.headers["x-forwarded-for"] as string | undefined;
-    if (NON_LOCAL_READ_ONLY && !this.isIpPrivate(clientIp)) {
+    if (NON_LOCAL_READ_ONLY && !AccessController.isIpPrivate(clientIp)) {
       allowedAccess = false;
     }
 
