@@ -28,19 +28,18 @@ export default class AccessController {
 
     // NON_LOCAL_READ_ONLY check
     const clientIp = req.headers["x-forwarded-for"] as string | undefined;
-    if (NON_LOCAL_READ_ONLY && !AccessController.isIpPrivate(clientIp)) {
+    if (NON_LOCAL_READ_ONLY && !this.isIpPrivate(clientIp)) {
       allowedAccess = false;
     }
 
     if (allowedAccess) {
       return next();
-    } else {
-      res.status(403).send({
-        success: false,
-        message: "Permission Denied! read only access allowed.",
-      });
     }
-    next();
+
+    res.status(403).send({
+      success: false,
+      message: "Permission Denied! read only access allowed.",
+    });
   }
 
   private static isIpPrivate(ip?: string) {
