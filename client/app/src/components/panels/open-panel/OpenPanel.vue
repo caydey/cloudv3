@@ -18,6 +18,9 @@
     <template v-else-if="epubMimes.includes(file.mime)">
       <EpubPanel :file="file" />
     </template>
+    <template v-else-if="audioMimes.includes(file.mime)">
+      <AudioPanel :file="file" />
+    </template>
     <template v-else>
       <UnknownPanel :file="file" />
     </template>
@@ -42,6 +45,7 @@ import VideoPanel from "./VideoPanel.vue";
 import TextPanel from "./TextPanel.vue";
 import ImagePanel from "./ImagePanel.vue";
 import UnknownPanel from "./UnknownPanel.vue";
+import AudioPanel from "./AudioPanel.vue";
 
 export default {
   name: "OpenPanel",
@@ -53,6 +57,7 @@ export default {
     CodePanel,
     PdfPanel,
     EpubPanel,
+    AudioPanel,
   },
   setup() {
     return {
@@ -62,6 +67,7 @@ export default {
       codeMimes: MimeCategories.code,
       pdfMimes: MimeCategories.pdf,
       epubMimes: MimeCategories.epub,
+      audioMimes: MimeCategories.audio
     };
   },
   props: ["file"],

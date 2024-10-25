@@ -40,5 +40,12 @@ export default {
   ],
   epub: [
     "application/epub+zip"
+  ],
+  audio: [
+    "audio/mpeg",
+    "audio/x-flac",
+    "audio/mp4",
+    "audio/ogg",
+    "audio/wave",
   ]
 }
