@@ -1,5 +1,5 @@
 import { ACCESS_TOKEN } from "../config.js";
-import cookie from "cookie";
+import * as cookie from "cookie";
 
 export function isAdmin(cookies?: string) {
   if (ACCESS_TOKEN) {
